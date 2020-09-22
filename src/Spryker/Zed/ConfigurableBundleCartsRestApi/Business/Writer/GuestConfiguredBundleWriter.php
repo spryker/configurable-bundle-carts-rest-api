@@ -8,18 +8,20 @@
 namespace Spryker\Zed\ConfigurableBundleCartsRestApi\Business\Writer;
 
 use Generated\Shared\Transfer\CreateConfiguredBundleRequestTransfer;
+use Generated\Shared\Transfer\CurrencyTransfer;
 use Generated\Shared\Transfer\PersistentCartChangeTransfer;
+use Generated\Shared\Transfer\QuoteCriteriaFilterTransfer;
 use Generated\Shared\Transfer\QuoteErrorTransfer;
 use Generated\Shared\Transfer\QuoteResponseTransfer;
 use Generated\Shared\Transfer\QuoteTransfer;
-use Generated\Shared\Transfer\UpdateConfiguredBundleRequestTransfer;
 use Spryker\Shared\ConfigurableBundleCartsRestApi\ConfigurableBundleCartsRestApiConfig as ConfigurableBundleCartsRestApiSharedConfig;
 use Spryker\Zed\ConfigurableBundleCartsRestApi\Business\Checker\QuotePermissionCheckerInterface;
 use Spryker\Zed\ConfigurableBundleCartsRestApi\Business\Mapper\ConfiguredBundleMapperInterface;
 use Spryker\Zed\ConfigurableBundleCartsRestApi\Dependency\Facade\ConfigurableBundleCartsRestApiToCartsRestApiFacadeInterface;
 use Spryker\Zed\ConfigurableBundleCartsRestApi\Dependency\Facade\ConfigurableBundleCartsRestApiToPersistentCartFacadeInterface;
+use Spryker\Zed\ConfigurableBundleCartsRestApi\Dependency\Facade\ConfigurableBundleCartsRestApiToStoreFacadeInterface;
 
-class ConfiguredBundleWriter implements ConfiguredBundleWriterInterface
+class GuestConfiguredBundleWriter implements GuestConfiguredBundleWriterInterface
 {
     /**
      * @var \Spryker\Zed\ConfigurableBundleCartsRestApi\Dependency\Facade\ConfigurableBundleCartsRestApiToPersistentCartFacadeInterface
@@ -42,21 +44,29 @@ class ConfiguredBundleWriter implements ConfiguredBundleWriterInterface
     protected $quotePermissionChecker;
 
     /**
+     * @var \Spryker\Zed\ConfigurableBundleCartsRestApi\Dependency\Facade\ConfigurableBundleCartsRestApiToStoreFacadeInterface
+     */
+    protected $storeFacade;
+
+    /**
      * @param \Spryker\Zed\ConfigurableBundleCartsRestApi\Dependency\Facade\ConfigurableBundleCartsRestApiToPersistentCartFacadeInterface $persistentCartFacade
      * @param \Spryker\Zed\ConfigurableBundleCartsRestApi\Dependency\Facade\ConfigurableBundleCartsRestApiToCartsRestApiFacadeInterface $cartsRestApiFacade
      * @param \Spryker\Zed\ConfigurableBundleCartsRestApi\Business\Mapper\ConfiguredBundleMapperInterface $configuredBundleMapper
      * @param \Spryker\Zed\ConfigurableBundleCartsRestApi\Business\Checker\QuotePermissionCheckerInterface $quotePermissionChecker
+     * @param \Spryker\Zed\ConfigurableBundleCartsRestApi\Dependency\Facade\ConfigurableBundleCartsRestApiToStoreFacadeInterface $storeFacade
      */
     public function __construct(
         ConfigurableBundleCartsRestApiToPersistentCartFacadeInterface $persistentCartFacade,
         ConfigurableBundleCartsRestApiToCartsRestApiFacadeInterface $cartsRestApiFacade,
         ConfiguredBundleMapperInterface $configuredBundleMapper,
-        QuotePermissionCheckerInterface $quotePermissionChecker
+        QuotePermissionCheckerInterface $quotePermissionChecker,
+        ConfigurableBundleCartsRestApiToStoreFacadeInterface $storeFacade
     ) {
         $this->persistentCartFacade = $persistentCartFacade;
         $this->cartsRestApiFacade = $cartsRestApiFacade;
         $this->configuredBundleMapper = $configuredBundleMapper;
         $this->quotePermissionChecker = $quotePermissionChecker;
+        $this->storeFacade = $storeFacade;
     }
 
     /**
@@ -64,14 +74,18 @@ class ConfiguredBundleWriter implements ConfiguredBundleWriterInterface
      *
      * @return \Generated\Shared\Transfer\QuoteResponseTransfer
      */
-    public function addConfiguredBundle(
+    public function addConfiguredBundleToGuestCart(
         CreateConfiguredBundleRequestTransfer $createConfiguredBundleRequestTransfer
     ): QuoteResponseTransfer {
         $this->assertRequiredCreateRequestProperties($createConfiguredBundleRequestTransfer);
-        $quoteResponseTransfer = $this->checkQuoteFromRequest($createConfiguredBundleRequestTransfer->getQuote());
+        $quoteResponseTransfer = $this->setCustomerQuoteUuid($createConfiguredBundleRequestTransfer->getQuote());
 
         if (!$quoteResponseTransfer->getIsSuccessful()) {
             return $quoteResponseTransfer;
+        }
+
+        if (!$this->quotePermissionChecker->checkQuoteWritePermission($quoteResponseTransfer->getQuoteTransfer())) {
+            return $this->addQuoteErrorToResponse($quoteResponseTransfer, ConfigurableBundleCartsRestApiSharedConfig::ERROR_IDENTIFIER_UNAUTHORIZED_CART_ACTION);
         }
 
         $persistentCartChangeTransfer = $this->configuredBundleMapper->mapCreateConfiguredBundleRequestToPersistentCartChange(
@@ -89,91 +103,55 @@ class ConfiguredBundleWriter implements ConfiguredBundleWriterInterface
     }
 
     /**
-     * @param \Generated\Shared\Transfer\UpdateConfiguredBundleRequestTransfer $updateConfiguredBundleRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\QuoteResponseTransfer
-     */
-    public function updateConfiguredBundleQuantity(
-        UpdateConfiguredBundleRequestTransfer $updateConfiguredBundleRequestTransfer
-    ): QuoteResponseTransfer {
-        $this->assertRequiredUpdateRequestProperties($updateConfiguredBundleRequestTransfer);
-        $updateConfiguredBundleRequestTransfer->requireQuantity();
-
-        $quoteResponseTransfer = $this->checkQuoteFromRequest($updateConfiguredBundleRequestTransfer->getQuote());
-
-        if (!$quoteResponseTransfer->getIsSuccessful()) {
-            return $quoteResponseTransfer;
-        }
-
-        $persistentCartChangeTransfer = $this->configuredBundleMapper->mapUpdateConfiguredBundleRequestToPersistentCartChange(
-            $updateConfiguredBundleRequestTransfer,
-            (new PersistentCartChangeTransfer())->setQuote((new QuoteTransfer())->fromArray($quoteResponseTransfer->getQuoteTransfer()->toArray(), true))
-        );
-
-        if (!$persistentCartChangeTransfer->getItems()->count()) {
-            return $this->addQuoteErrorToResponse($quoteResponseTransfer, ConfigurableBundleCartsRestApiSharedConfig::ERROR_IDENTIFIER_CONFIGURED_BUNDLE_NOT_FOUND);
-        }
-
-        $quoteResponseTransfer = $this->persistentCartFacade->updateQuantity($persistentCartChangeTransfer);
-
-        if (!$quoteResponseTransfer->getIsSuccessful()) {
-            $quoteResponseTransfer = $this->addQuoteErrorToResponse($quoteResponseTransfer, ConfigurableBundleCartsRestApiSharedConfig::ERROR_IDENTIFIER_FAILED_UPDATING_CONFIGURED_BUNDLE);
-        }
-
-        return $quoteResponseTransfer;
-    }
-
-    /**
-     * @param \Generated\Shared\Transfer\UpdateConfiguredBundleRequestTransfer $updateConfiguredBundleRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\QuoteResponseTransfer
-     */
-    public function removeConfiguredBundle(
-        UpdateConfiguredBundleRequestTransfer $updateConfiguredBundleRequestTransfer
-    ): QuoteResponseTransfer {
-        $this->assertRequiredUpdateRequestProperties($updateConfiguredBundleRequestTransfer);
-        $quoteResponseTransfer = $this->checkQuoteFromRequest($updateConfiguredBundleRequestTransfer->getQuote());
-
-        if (!$quoteResponseTransfer->getIsSuccessful()) {
-            return $quoteResponseTransfer;
-        }
-
-        $persistentCartChangeTransfer = $this->configuredBundleMapper->mapUpdateConfiguredBundleRequestToPersistentCartChange(
-            $updateConfiguredBundleRequestTransfer,
-            (new PersistentCartChangeTransfer())->setQuote((new QuoteTransfer())->fromArray($quoteResponseTransfer->getQuoteTransfer()->toArray(), true))
-        );
-
-        if (!$persistentCartChangeTransfer->getItems()->count()) {
-            return $this->addQuoteErrorToResponse($quoteResponseTransfer, ConfigurableBundleCartsRestApiSharedConfig::ERROR_IDENTIFIER_CONFIGURED_BUNDLE_NOT_FOUND);
-        }
-
-        $quoteResponseTransfer = $this->persistentCartFacade->remove($persistentCartChangeTransfer);
-
-        if (!$quoteResponseTransfer->getIsSuccessful()) {
-            $quoteResponseTransfer = $this->addQuoteErrorToResponse($quoteResponseTransfer, ConfigurableBundleCartsRestApiSharedConfig::ERROR_IDENTIFIER_FAILED_REMOVING_CONFIGURED_BUNDLE);
-        }
-
-        return $quoteResponseTransfer;
-    }
-
-    /**
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      *
      * @return \Generated\Shared\Transfer\QuoteResponseTransfer
      */
-    protected function checkQuoteFromRequest(QuoteTransfer $quoteTransfer): QuoteResponseTransfer
+    protected function setCustomerQuoteUuid(QuoteTransfer $quoteTransfer): QuoteResponseTransfer
     {
-        $quoteResponseTransfer = $this->cartsRestApiFacade->findQuoteByUuid($quoteTransfer);
+        $quoteResponseTransfer = (new QuoteResponseTransfer())
+            ->setQuoteTransfer($quoteTransfer)
+            ->setIsSuccessful(true);
 
-        if (!$quoteResponseTransfer->getIsSuccessful()) {
-            return $quoteResponseTransfer;
+        if ($quoteTransfer->getUuid()) {
+            return $this->cartsRestApiFacade->findQuoteByUuid($quoteTransfer);
         }
 
-        if (!$this->quotePermissionChecker->checkQuoteWritePermission($quoteResponseTransfer->getQuoteTransfer())) {
-            return $this->addQuoteErrorToResponse($quoteResponseTransfer, ConfigurableBundleCartsRestApiSharedConfig::ERROR_IDENTIFIER_UNAUTHORIZED_CART_ACTION);
+        $quoteCriteriaFilterTransfer = (new QuoteCriteriaFilterTransfer())
+            ->setCustomerReference($quoteTransfer->getCustomer()->getCustomerReference());
+
+        $customerQuoteTransfers = $this->cartsRestApiFacade
+            ->getQuoteCollection($quoteCriteriaFilterTransfer)
+            ->getQuotes();
+
+        if (!$customerQuoteTransfers->count()) {
+            return $this->createGuestQuote($quoteResponseTransfer);
         }
+
+        /** @var \Generated\Shared\Transfer\QuoteTransfer $customerQuoteTransfer */
+        $customerQuoteTransfer = $customerQuoteTransfers->offsetGet(0);
+
+        $quoteResponseTransfer->getQuoteTransfer()
+            ->setUuid($customerQuoteTransfer->getUuid())
+            ->setIdQuote($customerQuoteTransfer->getIdQuote());
 
         return $quoteResponseTransfer;
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\QuoteResponseTransfer $quoteResponseTransfer
+     *
+     * @return \Generated\Shared\Transfer\QuoteResponseTransfer
+     */
+    protected function createGuestQuote(QuoteResponseTransfer $quoteResponseTransfer): QuoteResponseTransfer
+    {
+        $currentStore = $this->storeFacade->getCurrentStore();
+
+        $quoteTransfer = $quoteResponseTransfer->getQuoteTransfer()
+            ->setStore($currentStore)
+            ->setCurrency((new CurrencyTransfer())->setCode($currentStore->getDefaultCurrencyIsoCode()));
+
+        return $this->cartsRestApiFacade->createQuote($quoteTransfer);
     }
 
     /**
@@ -186,7 +164,6 @@ class ConfiguredBundleWriter implements ConfiguredBundleWriterInterface
         $createConfiguredBundleRequestTransfer
             ->requireQuote()
             ->getQuote()
-                ->requireUuid()
                 ->requireCustomer()
                 ->requireCustomerReference()
                 ->getCustomer()
@@ -201,24 +178,6 @@ class ConfiguredBundleWriter implements ConfiguredBundleWriterInterface
                 ->getTemplate()
                     ->requireUuid()
                     ->requireName();
-    }
-
-    /**
-     * @param \Generated\Shared\Transfer\UpdateConfiguredBundleRequestTransfer $updateConfiguredBundleRequestTransfer
-     *
-     * @return void
-     */
-    protected function assertRequiredUpdateRequestProperties(UpdateConfiguredBundleRequestTransfer $updateConfiguredBundleRequestTransfer): void
-    {
-        $updateConfiguredBundleRequestTransfer
-            ->requireGroupKey()
-            ->requireQuote()
-            ->getQuote()
-                ->requireUuid()
-                ->requireCustomer()
-                ->requireCustomerReference()
-                ->getCustomer()
-                    ->requireCustomerReference();
     }
 
     /**

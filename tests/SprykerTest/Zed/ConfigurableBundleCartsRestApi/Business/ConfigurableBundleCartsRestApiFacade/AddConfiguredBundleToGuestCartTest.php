@@ -9,10 +9,14 @@ namespace SprykerTest\Zed\ConfigurableBundleCartsRestApi\Business\ConfigurableBu
 
 use ArrayObject;
 use Codeception\Test\Unit;
+use Generated\Shared\Transfer\CustomerTransfer;
+use Generated\Shared\Transfer\QuoteCollectionTransfer;
 use Generated\Shared\Transfer\QuoteResponseTransfer;
 use Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException;
 use Spryker\Zed\ConfigurableBundleCartsRestApi\Business\Checker\QuotePermissionChecker;
 use Spryker\Zed\ConfigurableBundleCartsRestApi\Business\ConfigurableBundleCartsRestApiBusinessFactory;
+use Spryker\Zed\ConfigurableBundleCartsRestApi\Dependency\Facade\ConfigurableBundleCartsRestApiToCartsRestApiFacadeBridge;
+use Spryker\Zed\ConfigurableBundleCartsRestApi\Dependency\Facade\ConfigurableBundleCartsRestApiToCartsRestApiFacadeInterface;
 use Spryker\Zed\ConfigurableBundleCartsRestApi\Dependency\Facade\ConfigurableBundleCartsRestApiToPersistentCartFacadeBridge;
 
 /**
@@ -23,12 +27,13 @@ use Spryker\Zed\ConfigurableBundleCartsRestApi\Dependency\Facade\ConfigurableBun
  * @group ConfigurableBundleCartsRestApi
  * @group Business
  * @group ConfigurableBundleCartsRestApiFacade
- * @group AddConfiguredBundleTest
+ * @group AddConfiguredBundleToGuestCartTest
  * Add your own group annotations below this line
  */
-class AddConfiguredBundleTest extends Unit
+class AddConfiguredBundleToGuestCartTest extends Unit
 {
     protected const FAKE_QUOTE_UUID = 'FAKE_QUOTE_UUID';
+    protected const FAKE_CUSTOMER_REFERENCE = 'FAKE_CUSTOMER_REFERENCE';
 
     /**
      * @uses \Spryker\Shared\CartsRestApi\CartsRestApiConfig::ERROR_IDENTIFIER_UNAUTHORIZED_CART_ACTION
@@ -48,13 +53,13 @@ class AddConfiguredBundleTest extends Unit
     /**
      * @return void
      */
-    public function testAddConfiguredBundleAddsConfiguredBundleToPersistentCart(): void
+    public function testAddConfiguredBundleToGuestCartAddsConfiguredBundleToPersistentCart(): void
     {
         // Arrange
         $createConfiguredBundleRequestTransfer = $this->tester->buildCreateConfiguredBundleRequest();
 
         // Act
-        $quoteResponseTransfer = $this->tester->getFacade()->addConfiguredBundle($createConfiguredBundleRequestTransfer);
+        $quoteResponseTransfer = $this->tester->getFacade()->addConfiguredBundleToGuestCart($createConfiguredBundleRequestTransfer);
 
         // Assert
         $this->assertTrue($quoteResponseTransfer->getIsSuccessful());
@@ -69,7 +74,7 @@ class AddConfiguredBundleTest extends Unit
     /**
      * @return void
      */
-    public function testAddConfiguredBundleThrowsExceptionWithEmptyQuoteField(): void
+    public function testAddConfiguredBundleToGuestCartThrowsExceptionWithEmptyQuoteField(): void
     {
         // Arrange
         $createConfiguredBundleRequestTransfer = $this->tester->buildCreateConfiguredBundleRequest();
@@ -79,29 +84,81 @@ class AddConfiguredBundleTest extends Unit
         $this->expectException(RequiredTransferPropertyException::class);
 
         // Act
-        $this->tester->getFacade()->addConfiguredBundle($createConfiguredBundleRequestTransfer);
+        $this->tester->getFacade()->addConfiguredBundleToGuestCart($createConfiguredBundleRequestTransfer);
     }
 
     /**
      * @return void
      */
-    public function testAddConfiguredBundleThrowsExceptionWithEmptyQuoteUuidField(): void
+    public function testAddConfiguredBundleToGuestCartAddsConfiguredBundleToPersistentCartWithoutQuoteUuid(): void
     {
         // Arrange
         $createConfiguredBundleRequestTransfer = $this->tester->buildCreateConfiguredBundleRequest();
-        $createConfiguredBundleRequestTransfer->getQuote()->setUuid(null);
-
-        // Assert
-        $this->expectException(RequiredTransferPropertyException::class);
+        $createConfiguredBundleRequestTransfer->getQuote()
+            ->setUuid(null)
+            ->setIdQuote(null);
 
         // Act
-        $this->tester->getFacade()->addConfiguredBundle($createConfiguredBundleRequestTransfer);
+        $quoteResponseTransfer = $this->tester->getFacade()->addConfiguredBundleToGuestCart($createConfiguredBundleRequestTransfer);
+
+        // Assert
+        $this->assertTrue($quoteResponseTransfer->getIsSuccessful());
     }
 
     /**
      * @return void
      */
-    public function testAddConfiguredBundleThrowsExceptionWithEmptyCustomerField(): void
+    public function testAddConfiguredBundleToGuestCartAddsConfiguredBundleToPersistentCartWithoutQuoteUuidForNewCustomer(): void
+    {
+        // Arrange
+        $createConfiguredBundleRequestTransfer = $this->tester->buildCreateConfiguredBundleRequest();
+        $createConfiguredBundleRequestTransfer->getQuote()
+            ->setIdQuote(null)
+            ->setUuid(null)
+            ->setCustomerReference(static::FAKE_CUSTOMER_REFERENCE)
+            ->setCustomer((new CustomerTransfer())->setCustomerReference(static::FAKE_CUSTOMER_REFERENCE));
+
+        // Act
+        $quoteResponseTransfer = $this->tester->getFacade()->addConfiguredBundleToGuestCart($createConfiguredBundleRequestTransfer);
+
+        // Assert
+        $this->assertTrue($quoteResponseTransfer->getIsSuccessful());
+    }
+
+    /**
+     * @return void
+     */
+    public function testAddConfiguredBundleToGuestCartAddsConfiguredBundleToPersistentCartWithoutQuoteUuidWhenCartCreationIsNotSuccessful(): void
+    {
+        // Arrange
+        $createConfiguredBundleRequestTransfer = $this->tester->buildCreateConfiguredBundleRequest();
+        $createConfiguredBundleRequestTransfer->getQuote()
+            ->setIdQuote(null)
+            ->setUuid(null)
+            ->setCustomerReference(static::FAKE_CUSTOMER_REFERENCE)
+            ->setCustomer((new CustomerTransfer())->setCustomerReference(static::FAKE_CUSTOMER_REFERENCE));
+
+        /** @var \PHPUnit\Framework\MockObject\MockObject|\Spryker\Zed\ConfigurableBundleCartsRestApi\Business\ConfigurableBundleCartsRestApiBusinessFactory $configurableBundleCartsRestApiBusinessFactoryMock */
+        $configurableBundleCartsRestApiBusinessFactoryMock = $this->getMockBuilder(ConfigurableBundleCartsRestApiBusinessFactory::class)
+            ->onlyMethods(['getCartsRestApiFacade'])
+            ->getMock();
+
+        $configurableBundleCartsRestApiBusinessFactoryMock
+            ->method('getCartsRestApiFacade')
+            ->willReturn($this->getConfigurableBundleCartsRestApiToCartsRestApiFacadeBridgeMock());
+
+        // Act
+        $quoteResponseTransfer = $this->tester->getFacadeMock($configurableBundleCartsRestApiBusinessFactoryMock)
+            ->addConfiguredBundleToGuestCart($createConfiguredBundleRequestTransfer);
+
+        // Assert
+        $this->assertFalse($quoteResponseTransfer->getIsSuccessful());
+    }
+
+    /**
+     * @return void
+     */
+    public function testAddConfiguredBundleToGuestCartThrowsExceptionWithEmptyCustomerField(): void
     {
         // Arrange
         $createConfiguredBundleRequestTransfer = $this->tester->buildCreateConfiguredBundleRequest();
@@ -111,13 +168,13 @@ class AddConfiguredBundleTest extends Unit
         $this->expectException(RequiredTransferPropertyException::class);
 
         // Act
-        $this->tester->getFacade()->addConfiguredBundle($createConfiguredBundleRequestTransfer);
+        $this->tester->getFacade()->addConfiguredBundleToGuestCart($createConfiguredBundleRequestTransfer);
     }
 
     /**
      * @return void
      */
-    public function testAddConfiguredBundleThrowsExceptionWithEmptyQuoteCustomerReferenceField(): void
+    public function testAddConfiguredBundleToGuestCartThrowsExceptionWithEmptyQuoteCustomerReferenceField(): void
     {
         // Arrange
         $createConfiguredBundleRequestTransfer = $this->tester->buildCreateConfiguredBundleRequest();
@@ -127,13 +184,13 @@ class AddConfiguredBundleTest extends Unit
         $this->expectException(RequiredTransferPropertyException::class);
 
         // Act
-        $this->tester->getFacade()->addConfiguredBundle($createConfiguredBundleRequestTransfer);
+        $this->tester->getFacade()->addConfiguredBundleToGuestCart($createConfiguredBundleRequestTransfer);
     }
 
     /**
      * @return void
      */
-    public function testAddConfiguredBundleThrowsExceptionWithEmptyCustomerReferenceField(): void
+    public function testAddConfiguredBundleToGuestCartThrowsExceptionWithEmptyCustomerReferenceField(): void
     {
         // Arrange
         $createConfiguredBundleRequestTransfer = $this->tester->buildCreateConfiguredBundleRequest();
@@ -143,13 +200,13 @@ class AddConfiguredBundleTest extends Unit
         $this->expectException(RequiredTransferPropertyException::class);
 
         // Act
-        $this->tester->getFacade()->addConfiguredBundle($createConfiguredBundleRequestTransfer);
+        $this->tester->getFacade()->addConfiguredBundleToGuestCart($createConfiguredBundleRequestTransfer);
     }
 
     /**
      * @return void
      */
-    public function testAddConfiguredBundleThrowsExceptionWithEmptyItemsField(): void
+    public function testAddConfiguredBundleToGuestCartThrowsExceptionWithEmptyItemsField(): void
     {
         // Arrange
         $createConfiguredBundleRequestTransfer = $this->tester->buildCreateConfiguredBundleRequest();
@@ -159,13 +216,13 @@ class AddConfiguredBundleTest extends Unit
         $this->expectException(RequiredTransferPropertyException::class);
 
         // Act
-        $this->tester->getFacade()->addConfiguredBundle($createConfiguredBundleRequestTransfer);
+        $this->tester->getFacade()->addConfiguredBundleToGuestCart($createConfiguredBundleRequestTransfer);
     }
 
     /**
      * @return void
      */
-    public function testAddConfiguredBundleThrowsExceptionWithEmptyConfiguredBundleField(): void
+    public function testAddConfiguredBundleToGuestCartThrowsExceptionWithEmptyConfiguredBundleField(): void
     {
         // Arrange
         $createConfiguredBundleRequestTransfer = $this->tester->buildCreateConfiguredBundleRequest();
@@ -175,13 +232,13 @@ class AddConfiguredBundleTest extends Unit
         $this->expectException(RequiredTransferPropertyException::class);
 
         // Act
-        $this->tester->getFacade()->addConfiguredBundle($createConfiguredBundleRequestTransfer);
+        $this->tester->getFacade()->addConfiguredBundleToGuestCart($createConfiguredBundleRequestTransfer);
     }
 
     /**
      * @return void
      */
-    public function testAddConfiguredBundleThrowsExceptionWithEmptyQuantityField(): void
+    public function testAddConfiguredBundleToGuestCartThrowsExceptionWithEmptyQuantityField(): void
     {
         // Arrange
         $createConfiguredBundleRequestTransfer = $this->tester->buildCreateConfiguredBundleRequest();
@@ -191,13 +248,13 @@ class AddConfiguredBundleTest extends Unit
         $this->expectException(RequiredTransferPropertyException::class);
 
         // Act
-        $this->tester->getFacade()->addConfiguredBundle($createConfiguredBundleRequestTransfer);
+        $this->tester->getFacade()->addConfiguredBundleToGuestCart($createConfiguredBundleRequestTransfer);
     }
 
     /**
      * @return void
      */
-    public function testAddConfiguredBundleThrowsExceptionWithEmptyTemplateField(): void
+    public function testAddConfiguredBundleToGuestCartThrowsExceptionWithEmptyTemplateField(): void
     {
         // Arrange
         $createConfiguredBundleRequestTransfer = $this->tester->buildCreateConfiguredBundleRequest();
@@ -207,13 +264,13 @@ class AddConfiguredBundleTest extends Unit
         $this->expectException(RequiredTransferPropertyException::class);
 
         // Act
-        $this->tester->getFacade()->addConfiguredBundle($createConfiguredBundleRequestTransfer);
+        $this->tester->getFacade()->addConfiguredBundleToGuestCart($createConfiguredBundleRequestTransfer);
     }
 
     /**
      * @return void
      */
-    public function testAddConfiguredBundleThrowsExceptionWithEmptyTemplateUuidField(): void
+    public function testAddConfiguredBundleToGuestCartThrowsExceptionWithEmptyTemplateUuidField(): void
     {
         // Arrange
         $createConfiguredBundleRequestTransfer = $this->tester->buildCreateConfiguredBundleRequest();
@@ -223,13 +280,13 @@ class AddConfiguredBundleTest extends Unit
         $this->expectException(RequiredTransferPropertyException::class);
 
         // Act
-        $this->tester->getFacade()->addConfiguredBundle($createConfiguredBundleRequestTransfer);
+        $this->tester->getFacade()->addConfiguredBundleToGuestCart($createConfiguredBundleRequestTransfer);
     }
 
     /**
      * @return void
      */
-    public function testAddConfiguredBundleThrowsExceptionWithEmptyTemplateNameField(): void
+    public function testAddConfiguredBundleToGuestCartThrowsExceptionWithEmptyTemplateNameField(): void
     {
         // Arrange
         $createConfiguredBundleRequestTransfer = $this->tester->buildCreateConfiguredBundleRequest();
@@ -239,20 +296,20 @@ class AddConfiguredBundleTest extends Unit
         $this->expectException(RequiredTransferPropertyException::class);
 
         // Act
-        $this->tester->getFacade()->addConfiguredBundle($createConfiguredBundleRequestTransfer);
+        $this->tester->getFacade()->addConfiguredBundleToGuestCart($createConfiguredBundleRequestTransfer);
     }
 
     /**
      * @return void
      */
-    public function testAddConfiguredBundleAddsConfiguredBundleToFakePersistentCart(): void
+    public function testAddConfiguredBundleToGuestCartAddsConfiguredBundleToFakePersistentCart(): void
     {
         // Arrange
         $createConfiguredBundleRequestTransfer = $this->tester->buildCreateConfiguredBundleRequest();
         $createConfiguredBundleRequestTransfer->getQuote()->setUuid(static::FAKE_QUOTE_UUID);
 
         // Act
-        $quoteResponseTransfer = $this->tester->getFacade()->addConfiguredBundle($createConfiguredBundleRequestTransfer);
+        $quoteResponseTransfer = $this->tester->getFacade()->addConfiguredBundleToGuestCart($createConfiguredBundleRequestTransfer);
 
         // Assert
         $this->assertFalse($quoteResponseTransfer->getIsSuccessful());
@@ -261,7 +318,7 @@ class AddConfiguredBundleTest extends Unit
     /**
      * @return void
      */
-    public function testAddConfiguredBundleAddsConfiguredBundleToPersistentCartWithoutWritePermissions(): void
+    public function testAddConfiguredBundleToGuestCartAddsConfiguredBundleToPersistentCartWithoutWritePermissions(): void
     {
         // Arrange
         $createConfiguredBundleRequestTransfer = $this->tester->buildCreateConfiguredBundleRequest();
@@ -277,7 +334,7 @@ class AddConfiguredBundleTest extends Unit
 
         // Act
         $quoteResponseTransfer = $this->tester->getFacadeMock($configurableBundleCartsRestApiBusinessFactoryMock)
-            ->addConfiguredBundle($createConfiguredBundleRequestTransfer);
+            ->addConfiguredBundleToGuestCart($createConfiguredBundleRequestTransfer);
 
         // Assert
         $this->assertFalse($quoteResponseTransfer->getIsSuccessful());
@@ -290,7 +347,7 @@ class AddConfiguredBundleTest extends Unit
     /**
      * @return void
      */
-    public function testAddConfiguredBundleAddsConfiguredBundleToPersistentCartWithErrorDuringPersistentFacadeCall(): void
+    public function testAddConfiguredBundleToGuestCartAddsConfiguredBundleToPersistentCartWithErrorDuringPersistentFacadeCall(): void
     {
         // Arrange
         $createConfiguredBundleRequestTransfer = $this->tester->buildCreateConfiguredBundleRequest();
@@ -306,7 +363,7 @@ class AddConfiguredBundleTest extends Unit
 
         // Act
         $quoteResponseTransfer = $this->tester->getFacadeMock($configurableBundleCartsRestApiBusinessFactoryMock)
-            ->addConfiguredBundle($createConfiguredBundleRequestTransfer);
+            ->addConfiguredBundleToGuestCart($createConfiguredBundleRequestTransfer);
 
         // Assert
         $this->assertFalse($quoteResponseTransfer->getIsSuccessful());
@@ -348,5 +405,26 @@ class AddConfiguredBundleTest extends Unit
             ->willReturn((new QuoteResponseTransfer())->setIsSuccessful(false));
 
         return $configurableBundleCartsRestApiToPersistentCartFacadeBridgeMock;
+    }
+
+    /**
+     * @return \PHPUnit\Framework\MockObject\MockObject|\Spryker\Zed\ConfigurableBundleCartsRestApi\Dependency\Facade\ConfigurableBundleCartsRestApiToCartsRestApiFacadeInterface
+     */
+    protected function getConfigurableBundleCartsRestApiToCartsRestApiFacadeBridgeMock(): ConfigurableBundleCartsRestApiToCartsRestApiFacadeInterface
+    {
+        $configurableBundleCartsRestApiToCartsRestApiFacadeBridgeMock = $this->getMockBuilder(ConfigurableBundleCartsRestApiToCartsRestApiFacadeBridge::class)
+            ->onlyMethods(['createQuote', 'getQuoteCollection'])
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $configurableBundleCartsRestApiToCartsRestApiFacadeBridgeMock
+            ->method('createQuote')
+            ->willReturn((new QuoteResponseTransfer())->setIsSuccessful(false));
+
+        $configurableBundleCartsRestApiToCartsRestApiFacadeBridgeMock
+            ->method('getQuoteCollection')
+            ->willReturn(new QuoteCollectionTransfer());
+
+        return $configurableBundleCartsRestApiToCartsRestApiFacadeBridgeMock;
     }
 }
