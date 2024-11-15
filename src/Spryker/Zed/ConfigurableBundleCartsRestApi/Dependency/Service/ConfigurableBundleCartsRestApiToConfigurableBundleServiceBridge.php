@@ -9,19 +9,19 @@ namespace Spryker\Zed\ConfigurableBundleCartsRestApi\Dependency\Service;
 
 use Generated\Shared\Transfer\ConfiguredBundleTransfer;
 
-class ConfigurableBundleCartsRestApiToConfigurableBundleCartServiceBridge implements ConfigurableBundleCartsRestApiToConfigurableBundleCartServiceInterface
+class ConfigurableBundleCartsRestApiToConfigurableBundleServiceBridge implements ConfigurableBundleCartsRestApiToConfigurableBundleServiceInterface
 {
     /**
-     * @var \Spryker\Service\ConfigurableBundleCart\ConfigurableBundleCartServiceInterface
+     * @var \Spryker\Service\ConfigurableBundle\ConfigurableBundleServiceInterface
      */
-    protected $configurableBundleCartService;
+    protected $configurableBundleService;
 
     /**
-     * @param \Spryker\Service\ConfigurableBundleCart\ConfigurableBundleCartServiceInterface $configurableBundleCartService
+     * @param \Spryker\Service\ConfigurableBundle\ConfigurableBundleServiceInterface $configurableBundleService
      */
-    public function __construct($configurableBundleCartService)
+    public function __construct($configurableBundleService)
     {
-        $this->configurableBundleCartService = $configurableBundleCartService;
+        $this->configurableBundleService = $configurableBundleService;
     }
 
     /**
@@ -31,6 +31,6 @@ class ConfigurableBundleCartsRestApiToConfigurableBundleCartServiceBridge implem
      */
     public function expandConfiguredBundleWithGroupKey(ConfiguredBundleTransfer $configuredBundleTransfer): ConfiguredBundleTransfer
     {
-        return $this->configurableBundleCartService->expandConfiguredBundleWithGroupKey($configuredBundleTransfer);
+        return $this->configurableBundleService->expandConfiguredBundleWithGroupKey($configuredBundleTransfer);
     }
 }

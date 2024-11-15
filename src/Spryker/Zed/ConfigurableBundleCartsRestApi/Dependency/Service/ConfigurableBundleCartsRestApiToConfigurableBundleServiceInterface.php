@@ -9,7 +9,7 @@ namespace Spryker\Zed\ConfigurableBundleCartsRestApi\Dependency\Service;
 
 use Generated\Shared\Transfer\ConfiguredBundleTransfer;
 
-interface ConfigurableBundleCartsRestApiToConfigurableBundleCartServiceInterface
+interface ConfigurableBundleCartsRestApiToConfigurableBundleServiceInterface
 {
     /**
      * @param \Generated\Shared\Transfer\ConfiguredBundleTransfer $configuredBundleTransfer
