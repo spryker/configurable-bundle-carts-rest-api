@@ -24,11 +24,6 @@ class ConfigurableBundleCartsRestApiToConfigurableBundleServiceBridge implements
         $this->configurableBundleService = $configurableBundleService;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\ConfiguredBundleTransfer $configuredBundleTransfer
-     *
-     * @return \Generated\Shared\Transfer\ConfiguredBundleTransfer
-     */
     public function expandConfiguredBundleWithGroupKey(ConfiguredBundleTransfer $configuredBundleTransfer): ConfiguredBundleTransfer
     {
         return $this->configurableBundleService->expandConfiguredBundleWithGroupKey($configuredBundleTransfer);

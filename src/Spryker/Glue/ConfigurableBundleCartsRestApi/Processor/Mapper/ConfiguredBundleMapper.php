@@ -24,20 +24,11 @@ class ConfiguredBundleMapper implements ConfiguredBundleMapperInterface
      */
     protected $configurableBundleCartsRestApiConfig;
 
-    /**
-     * @param \Spryker\Glue\ConfigurableBundleCartsRestApi\ConfigurableBundleCartsRestApiConfig $configurableBundleCartsRestApiConfig
-     */
     public function __construct(ConfigurableBundleCartsRestApiConfig $configurableBundleCartsRestApiConfig)
     {
         $this->configurableBundleCartsRestApiConfig = $configurableBundleCartsRestApiConfig;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\RestConfiguredBundlesAttributesTransfer $restConfiguredBundlesAttributesTransfer
-     * @param \Generated\Shared\Transfer\CreateConfiguredBundleRequestTransfer $createConfiguredBundleRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\CreateConfiguredBundleRequestTransfer
-     */
     public function mapRestConfiguredBundlesAttributesToCreateConfiguredBundleRequest(
         RestConfiguredBundlesAttributesTransfer $restConfiguredBundlesAttributesTransfer,
         CreateConfiguredBundleRequestTransfer $createConfiguredBundleRequestTransfer
@@ -71,12 +62,6 @@ class ConfiguredBundleMapper implements ConfiguredBundleMapperInterface
         return $createConfiguredBundleRequestTransfer;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\QuoteErrorTransfer $quoteErrorTransfer
-     * @param \Generated\Shared\Transfer\RestErrorMessageTransfer $restErrorMessageTransfer
-     *
-     * @return \Generated\Shared\Transfer\RestErrorMessageTransfer
-     */
     public function mapQuoteErrorTransferToRestErrorMessageTransfer(
         QuoteErrorTransfer $quoteErrorTransfer,
         RestErrorMessageTransfer $restErrorMessageTransfer
@@ -94,11 +79,6 @@ class ConfiguredBundleMapper implements ConfiguredBundleMapperInterface
         return $this->createErrorMessageTransfer($quoteErrorTransfer);
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\QuoteErrorTransfer $quoteErrorTransfer
-     *
-     * @return \Generated\Shared\Transfer\RestErrorMessageTransfer
-     */
     protected function createErrorMessageTransfer(QuoteErrorTransfer $quoteErrorTransfer): RestErrorMessageTransfer
     {
         return (new RestErrorMessageTransfer())

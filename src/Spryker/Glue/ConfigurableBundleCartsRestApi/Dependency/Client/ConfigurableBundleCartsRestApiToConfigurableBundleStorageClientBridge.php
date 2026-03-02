@@ -24,12 +24,6 @@ class ConfigurableBundleCartsRestApiToConfigurableBundleStorageClientBridge impl
         $this->configurableBundleStorageClient = $configurableBundleStorageClient;
     }
 
-    /**
-     * @param string $configurableBundleTemplateUuid
-     * @param string $localeName
-     *
-     * @return \Generated\Shared\Transfer\ConfigurableBundleTemplateStorageTransfer|null
-     */
     public function findConfigurableBundleTemplateStorageByUuid(
         string $configurableBundleTemplateUuid,
         string $localeName

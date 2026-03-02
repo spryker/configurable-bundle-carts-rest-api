@@ -56,9 +56,6 @@ class UpdateConfiguredBundleQuantityTest extends Unit
      */
     protected $tester;
 
-    /**
-     * @return void
-     */
     public function setUp(): void
     {
         parent::setUp();
@@ -74,9 +71,6 @@ class UpdateConfiguredBundleQuantityTest extends Unit
         ]);
     }
 
-    /**
-     * @return void
-     */
     public function testUpdateConfiguredBundleQuantityUpdatesConfiguredBundleQuantity(): void
     {
         // Arrange
@@ -108,9 +102,6 @@ class UpdateConfiguredBundleQuantityTest extends Unit
         );
     }
 
-    /**
-     * @return void
-     */
     public function testUpdateConfiguredBundleQuantityThrowsExceptionWithEmptyGroupKeyField(): void
     {
         // Arrange
@@ -124,9 +115,6 @@ class UpdateConfiguredBundleQuantityTest extends Unit
         $this->tester->getFacade()->updateConfiguredBundleQuantity($updateConfiguredBundleRequestTransfer);
     }
 
-    /**
-     * @return void
-     */
     public function testUpdateConfiguredBundleQuantityThrowsExceptionWithEmptyQuoteField(): void
     {
         // Arrange
@@ -140,9 +128,6 @@ class UpdateConfiguredBundleQuantityTest extends Unit
         $this->tester->getFacade()->updateConfiguredBundleQuantity($updateConfiguredBundleRequestTransfer);
     }
 
-    /**
-     * @return void
-     */
     public function testUpdateConfiguredBundleQuantityThrowsExceptionWithEmptyQuoteUuidField(): void
     {
         // Arrange
@@ -156,9 +141,6 @@ class UpdateConfiguredBundleQuantityTest extends Unit
         $this->tester->getFacade()->updateConfiguredBundleQuantity($updateConfiguredBundleRequestTransfer);
     }
 
-    /**
-     * @return void
-     */
     public function testUpdateConfiguredBundleQuantityThrowsExceptionWithEmptyCustomerField(): void
     {
         // Arrange
@@ -172,9 +154,6 @@ class UpdateConfiguredBundleQuantityTest extends Unit
         $this->tester->getFacade()->updateConfiguredBundleQuantity($updateConfiguredBundleRequestTransfer);
     }
 
-    /**
-     * @return void
-     */
     public function testUpdateConfiguredBundleQuantityThrowsExceptionWithEmptyQuoteCustomerReferenceField(): void
     {
         // Arrange
@@ -188,9 +167,6 @@ class UpdateConfiguredBundleQuantityTest extends Unit
         $this->tester->getFacade()->updateConfiguredBundleQuantity($updateConfiguredBundleRequestTransfer);
     }
 
-    /**
-     * @return void
-     */
     public function testUpdateConfiguredBundleQuantityThrowsExceptionWithEmptyCustomerReferenceField(): void
     {
         // Arrange
@@ -204,9 +180,6 @@ class UpdateConfiguredBundleQuantityTest extends Unit
         $this->tester->getFacade()->updateConfiguredBundleQuantity($updateConfiguredBundleRequestTransfer);
     }
 
-    /**
-     * @return void
-     */
     public function testUpdateConfiguredBundleQuantityUpdatesConfiguredBundleQuantityInFakePersistentCart(): void
     {
         // Arrange
@@ -220,9 +193,6 @@ class UpdateConfiguredBundleQuantityTest extends Unit
         $this->assertFalse($quoteResponseTransfer->getIsSuccessful());
     }
 
-    /**
-     * @return void
-     */
     public function testUpdateConfiguredBundleQuantityUpdatesConfiguredBundleQuantityInPersistentCartWithoutWritePermissions(): void
     {
         // Arrange
@@ -249,9 +219,6 @@ class UpdateConfiguredBundleQuantityTest extends Unit
         );
     }
 
-    /**
-     * @return void
-     */
     public function testUpdateConfiguredBundleQuantityUpdatesConfiguredBundleQuantityInPersistentCartWithErrorDuringPersistentFacadeCall(): void
     {
         // Arrange

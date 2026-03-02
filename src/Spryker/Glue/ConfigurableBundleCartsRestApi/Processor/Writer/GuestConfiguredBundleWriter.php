@@ -42,12 +42,6 @@ class GuestConfiguredBundleWriter implements GuestConfiguredBundleWriterInterfac
      */
     protected $configuredBundleRequestCreator;
 
-    /**
-     * @param \Spryker\Glue\ConfigurableBundleCartsRestApi\Processor\RestResponseBuilder\ConfiguredBundleRestResponseBuilderInterface $configuredBundleRestResponseBuilder
-     * @param \Spryker\Client\ConfigurableBundleCartsRestApi\ConfigurableBundleCartsRestApiClientInterface $configurableBundleCartsRestApiClient
-     * @param \Spryker\Glue\ConfigurableBundleCartsRestApi\Dependency\RestApiResource\ConfigurableBundleCartsRestApiToCartsRestApiResourceInterface $cartsRestApiResource
-     * @param \Spryker\Glue\ConfigurableBundleCartsRestApi\Processor\Creator\ConfiguredBundleRequestCreatorInterface $configuredBundleRequestCreator
-     */
     public function __construct(
         ConfiguredBundleRestResponseBuilderInterface $configuredBundleRestResponseBuilder,
         ConfigurableBundleCartsRestApiClientInterface $configurableBundleCartsRestApiClient,
@@ -60,12 +54,6 @@ class GuestConfiguredBundleWriter implements GuestConfiguredBundleWriterInterfac
         $this->configuredBundleRequestCreator = $configuredBundleRequestCreator;
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     * @param \Generated\Shared\Transfer\RestConfiguredBundlesAttributesTransfer $restConfiguredBundlesAttributesTransfer
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
-     */
     public function addConfiguredBundle(
         RestRequestInterface $restRequest,
         RestConfiguredBundlesAttributesTransfer $restConfiguredBundlesAttributesTransfer
@@ -94,12 +82,6 @@ class GuestConfiguredBundleWriter implements GuestConfiguredBundleWriterInterfac
         );
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     * @param \Generated\Shared\Transfer\RestConfiguredBundlesAttributesTransfer $restConfiguredBundlesAttributesTransfer
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
-     */
     public function updateConfiguredBundleQuantity(
         RestRequestInterface $restRequest,
         RestConfiguredBundlesAttributesTransfer $restConfiguredBundlesAttributesTransfer
@@ -131,11 +113,6 @@ class GuestConfiguredBundleWriter implements GuestConfiguredBundleWriterInterfac
         );
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
-     */
     public function deleteConfiguredBundle(RestRequestInterface $restRequest): RestResponseInterface
     {
         $quoteUuid = $this->findGuestCartIdentifier($restRequest);
@@ -157,11 +134,6 @@ class GuestConfiguredBundleWriter implements GuestConfiguredBundleWriterInterfac
             ->setStatus(Response::HTTP_NO_CONTENT);
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     *
-     * @return string|null
-     */
     protected function findGuestCartIdentifier(RestRequestInterface $restRequest): ?string
     {
         $cartsResource = $restRequest->findParentResourceByType(ConfigurableBundleCartsRestApiConfig::RESOURCE_GUEST_CARTS);
@@ -169,11 +141,6 @@ class GuestConfiguredBundleWriter implements GuestConfiguredBundleWriterInterfac
         return $cartsResource ? $cartsResource->getId() : null;
     }
 
-    /**
-     * @param string $errorIdentifier
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
-     */
     protected function createFailedResponse(string $errorIdentifier): RestResponseInterface
     {
         $quoteResponseTransfer = (new QuoteResponseTransfer())

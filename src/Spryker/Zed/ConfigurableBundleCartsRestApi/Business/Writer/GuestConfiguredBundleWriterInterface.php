@@ -12,11 +12,6 @@ use Generated\Shared\Transfer\QuoteResponseTransfer;
 
 interface GuestConfiguredBundleWriterInterface
 {
-    /**
-     * @param \Generated\Shared\Transfer\CreateConfiguredBundleRequestTransfer $createConfiguredBundleRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\QuoteResponseTransfer
-     */
     public function addConfiguredBundleToGuestCart(
         CreateConfiguredBundleRequestTransfer $createConfiguredBundleRequestTransfer
     ): QuoteResponseTransfer;

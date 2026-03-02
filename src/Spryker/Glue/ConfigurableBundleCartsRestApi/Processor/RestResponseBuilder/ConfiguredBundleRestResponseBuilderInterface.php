@@ -12,15 +12,7 @@ use Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface;
 
 interface ConfiguredBundleRestResponseBuilderInterface
 {
-    /**
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
-     */
     public function createRestResponse(): RestResponseInterface;
 
-    /**
-     * @param \Generated\Shared\Transfer\QuoteResponseTransfer $quoteResponseTransfer
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
-     */
     public function createFailedResponse(QuoteResponseTransfer $quoteResponseTransfer): RestResponseInterface;
 }

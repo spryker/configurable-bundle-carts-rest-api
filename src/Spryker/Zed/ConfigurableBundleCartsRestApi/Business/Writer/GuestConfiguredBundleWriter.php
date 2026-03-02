@@ -48,13 +48,6 @@ class GuestConfiguredBundleWriter implements GuestConfiguredBundleWriterInterfac
      */
     protected $storeFacade;
 
-    /**
-     * @param \Spryker\Zed\ConfigurableBundleCartsRestApi\Dependency\Facade\ConfigurableBundleCartsRestApiToPersistentCartFacadeInterface $persistentCartFacade
-     * @param \Spryker\Zed\ConfigurableBundleCartsRestApi\Dependency\Facade\ConfigurableBundleCartsRestApiToCartsRestApiFacadeInterface $cartsRestApiFacade
-     * @param \Spryker\Zed\ConfigurableBundleCartsRestApi\Business\Mapper\ConfiguredBundleMapperInterface $configuredBundleMapper
-     * @param \Spryker\Zed\ConfigurableBundleCartsRestApi\Business\Checker\QuotePermissionCheckerInterface $quotePermissionChecker
-     * @param \Spryker\Zed\ConfigurableBundleCartsRestApi\Dependency\Facade\ConfigurableBundleCartsRestApiToStoreFacadeInterface $storeFacade
-     */
     public function __construct(
         ConfigurableBundleCartsRestApiToPersistentCartFacadeInterface $persistentCartFacade,
         ConfigurableBundleCartsRestApiToCartsRestApiFacadeInterface $cartsRestApiFacade,
@@ -69,11 +62,6 @@ class GuestConfiguredBundleWriter implements GuestConfiguredBundleWriterInterfac
         $this->storeFacade = $storeFacade;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\CreateConfiguredBundleRequestTransfer $createConfiguredBundleRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\QuoteResponseTransfer
-     */
     public function addConfiguredBundleToGuestCart(
         CreateConfiguredBundleRequestTransfer $createConfiguredBundleRequestTransfer
     ): QuoteResponseTransfer {
@@ -102,11 +90,6 @@ class GuestConfiguredBundleWriter implements GuestConfiguredBundleWriterInterfac
         return $quoteResponseTransfer;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
-     *
-     * @return \Generated\Shared\Transfer\QuoteResponseTransfer
-     */
     protected function setCustomerQuoteUuid(QuoteTransfer $quoteTransfer): QuoteResponseTransfer
     {
         $quoteResponseTransfer = (new QuoteResponseTransfer())
@@ -138,11 +121,6 @@ class GuestConfiguredBundleWriter implements GuestConfiguredBundleWriterInterfac
         return $quoteResponseTransfer;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\QuoteResponseTransfer $quoteResponseTransfer
-     *
-     * @return \Generated\Shared\Transfer\QuoteResponseTransfer
-     */
     protected function createGuestQuote(QuoteResponseTransfer $quoteResponseTransfer): QuoteResponseTransfer
     {
         $currentStore = $this->storeFacade->getCurrentStore();
@@ -154,11 +132,6 @@ class GuestConfiguredBundleWriter implements GuestConfiguredBundleWriterInterfac
         return $this->cartsRestApiFacade->createQuote($quoteTransfer);
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\CreateConfiguredBundleRequestTransfer $createConfiguredBundleRequestTransfer
-     *
-     * @return void
-     */
     protected function assertRequiredCreateRequestProperties(CreateConfiguredBundleRequestTransfer $createConfiguredBundleRequestTransfer): void
     {
         $createConfiguredBundleRequestTransfer
@@ -180,12 +153,6 @@ class GuestConfiguredBundleWriter implements GuestConfiguredBundleWriterInterfac
                     ->requireName();
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\QuoteResponseTransfer $quoteResponseTransfer
-     * @param string $errorIdentifier
-     *
-     * @return \Generated\Shared\Transfer\QuoteResponseTransfer
-     */
     protected function addQuoteErrorToResponse(QuoteResponseTransfer $quoteResponseTransfer, string $errorIdentifier): QuoteResponseTransfer
     {
         return $quoteResponseTransfer

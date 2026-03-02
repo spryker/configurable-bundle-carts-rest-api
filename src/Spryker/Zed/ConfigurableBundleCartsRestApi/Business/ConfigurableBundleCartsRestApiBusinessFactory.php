@@ -27,9 +27,6 @@ use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
  */
 class ConfigurableBundleCartsRestApiBusinessFactory extends AbstractBusinessFactory
 {
-    /**
-     * @return \Spryker\Zed\ConfigurableBundleCartsRestApi\Business\Writer\ConfiguredBundleWriterInterface
-     */
     public function createConfiguredBundleWriter(): ConfiguredBundleWriterInterface
     {
         return new ConfiguredBundleWriter(
@@ -40,9 +37,6 @@ class ConfigurableBundleCartsRestApiBusinessFactory extends AbstractBusinessFact
         );
     }
 
-    /**
-     * @return \Spryker\Zed\ConfigurableBundleCartsRestApi\Business\Writer\GuestConfiguredBundleWriterInterface
-     */
     public function createGuestConfiguredBundleWriter(): GuestConfiguredBundleWriterInterface
     {
         return new GuestConfiguredBundleWriter(
@@ -54,9 +48,6 @@ class ConfigurableBundleCartsRestApiBusinessFactory extends AbstractBusinessFact
         );
     }
 
-    /**
-     * @return \Spryker\Zed\ConfigurableBundleCartsRestApi\Business\Mapper\ConfiguredBundleMapperInterface
-     */
     public function createConfiguredBundleMapper(): ConfiguredBundleMapperInterface
     {
         return new ConfiguredBundleMapper(
@@ -64,41 +55,26 @@ class ConfigurableBundleCartsRestApiBusinessFactory extends AbstractBusinessFact
         );
     }
 
-    /**
-     * @return \Spryker\Zed\ConfigurableBundleCartsRestApi\Business\Checker\QuotePermissionCheckerInterface
-     */
     public function createQuotePermissionChecker(): QuotePermissionCheckerInterface
     {
         return new QuotePermissionChecker();
     }
 
-    /**
-     * @return \Spryker\Zed\ConfigurableBundleCartsRestApi\Dependency\Facade\ConfigurableBundleCartsRestApiToPersistentCartFacadeInterface
-     */
     public function getPersistentCartFacade(): ConfigurableBundleCartsRestApiToPersistentCartFacadeInterface
     {
         return $this->getProvidedDependency(ConfigurableBundleCartsRestApiDependencyProvider::FACADE_PERSISTENT_CART);
     }
 
-    /**
-     * @return \Spryker\Zed\ConfigurableBundleCartsRestApi\Dependency\Facade\ConfigurableBundleCartsRestApiToCartsRestApiFacadeInterface
-     */
     public function getCartsRestApiFacade(): ConfigurableBundleCartsRestApiToCartsRestApiFacadeInterface
     {
         return $this->getProvidedDependency(ConfigurableBundleCartsRestApiDependencyProvider::FACADE_CARTS_REST_API);
     }
 
-    /**
-     * @return \Spryker\Zed\ConfigurableBundleCartsRestApi\Dependency\Facade\ConfigurableBundleCartsRestApiToStoreFacadeInterface
-     */
     public function getStoreFacade(): ConfigurableBundleCartsRestApiToStoreFacadeInterface
     {
         return $this->getProvidedDependency(ConfigurableBundleCartsRestApiDependencyProvider::FACADE_STORE);
     }
 
-    /**
-     * @return \Spryker\Zed\ConfigurableBundleCartsRestApi\Dependency\Service\ConfigurableBundleCartsRestApiToConfigurableBundleServiceInterface
-     */
     public function getConfigurableBundleService(): ConfigurableBundleCartsRestApiToConfigurableBundleServiceInterface
     {
         return $this->getProvidedDependency(ConfigurableBundleCartsRestApiDependencyProvider::SERVICE_CONFIGURABLE_BUNDLE);

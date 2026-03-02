@@ -14,17 +14,11 @@ use Spryker\Client\Kernel\AbstractFactory;
 
 class ConfigurableBundleCartsRestApiFactory extends AbstractFactory
 {
-    /**
-     * @return \Spryker\Client\ConfigurableBundleCartsRestApi\Zed\ConfigurableBundleCartsRestApiZedStubInterface
-     */
     public function createConfigurableBundleCartsRestApiZedStub(): ConfigurableBundleCartsRestApiZedStubInterface
     {
         return new ConfigurableBundleCartsRestApiZedStub($this->getZedRequestClient());
     }
 
-    /**
-     * @return \Spryker\Client\ConfigurableBundleCartsRestApi\Dependency\Client\ConfigurableBundleCartsRestApiToZedRequestClientInterface
-     */
     public function getZedRequestClient(): ConfigurableBundleCartsRestApiToZedRequestClientInterface
     {
         return $this->getProvidedDependency(ConfigurableBundleCartsRestApiDependencyProvider::CLIENT_ZED_REQUEST);

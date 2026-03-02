@@ -61,9 +61,6 @@ class AddConfiguredBundleToGuestCartTest extends Unit
      */
     protected $tester;
 
-    /**
-     * @return void
-     */
     public function testAddConfiguredBundleToGuestCartAddsConfiguredBundleToPersistentCart(): void
     {
         // Arrange
@@ -82,9 +79,6 @@ class AddConfiguredBundleToGuestCartTest extends Unit
         $this->assertNotNull($quoteResponseTransfer->getQuoteTransfer()->getItems()->offsetGet(1)->getConfiguredBundleItem());
     }
 
-    /**
-     * @return void
-     */
     public function testAddConfiguredBundleToGuestCartThrowsExceptionWithEmptyQuoteField(): void
     {
         // Arrange
@@ -98,9 +92,6 @@ class AddConfiguredBundleToGuestCartTest extends Unit
         $this->tester->getFacade()->addConfiguredBundleToGuestCart($createConfiguredBundleRequestTransfer);
     }
 
-    /**
-     * @return void
-     */
     public function testAddConfiguredBundleToGuestCartAddsConfiguredBundleToPersistentCartWithoutQuoteUuid(): void
     {
         // Arrange
@@ -116,9 +107,6 @@ class AddConfiguredBundleToGuestCartTest extends Unit
         $this->assertTrue($quoteResponseTransfer->getIsSuccessful());
     }
 
-    /**
-     * @return void
-     */
     public function testAddConfiguredBundleToGuestCartAddsConfiguredBundleToPersistentCartWithoutQuoteUuidForNewCustomer(): void
     {
         // Arrange
@@ -136,9 +124,6 @@ class AddConfiguredBundleToGuestCartTest extends Unit
         $this->assertTrue($quoteResponseTransfer->getIsSuccessful());
     }
 
-    /**
-     * @return void
-     */
     public function testAddConfiguredBundleToGuestCartAddsConfiguredBundleToPersistentCartWithoutQuoteUuidWhenCartCreationIsNotSuccessful(): void
     {
         // Arrange
@@ -166,9 +151,6 @@ class AddConfiguredBundleToGuestCartTest extends Unit
         $this->assertFalse($quoteResponseTransfer->getIsSuccessful());
     }
 
-    /**
-     * @return void
-     */
     public function testAddConfiguredBundleToGuestCartThrowsExceptionWithEmptyCustomerField(): void
     {
         // Arrange
@@ -182,9 +164,6 @@ class AddConfiguredBundleToGuestCartTest extends Unit
         $this->tester->getFacade()->addConfiguredBundleToGuestCart($createConfiguredBundleRequestTransfer);
     }
 
-    /**
-     * @return void
-     */
     public function testAddConfiguredBundleToGuestCartThrowsExceptionWithEmptyQuoteCustomerReferenceField(): void
     {
         // Arrange
@@ -198,9 +177,6 @@ class AddConfiguredBundleToGuestCartTest extends Unit
         $this->tester->getFacade()->addConfiguredBundleToGuestCart($createConfiguredBundleRequestTransfer);
     }
 
-    /**
-     * @return void
-     */
     public function testAddConfiguredBundleToGuestCartThrowsExceptionWithEmptyCustomerReferenceField(): void
     {
         // Arrange
@@ -214,9 +190,6 @@ class AddConfiguredBundleToGuestCartTest extends Unit
         $this->tester->getFacade()->addConfiguredBundleToGuestCart($createConfiguredBundleRequestTransfer);
     }
 
-    /**
-     * @return void
-     */
     public function testAddConfiguredBundleToGuestCartThrowsExceptionWithEmptyItemsField(): void
     {
         // Arrange
@@ -230,9 +203,6 @@ class AddConfiguredBundleToGuestCartTest extends Unit
         $this->tester->getFacade()->addConfiguredBundleToGuestCart($createConfiguredBundleRequestTransfer);
     }
 
-    /**
-     * @return void
-     */
     public function testAddConfiguredBundleToGuestCartThrowsExceptionWithEmptyConfiguredBundleField(): void
     {
         // Arrange
@@ -246,9 +216,6 @@ class AddConfiguredBundleToGuestCartTest extends Unit
         $this->tester->getFacade()->addConfiguredBundleToGuestCart($createConfiguredBundleRequestTransfer);
     }
 
-    /**
-     * @return void
-     */
     public function testAddConfiguredBundleToGuestCartThrowsExceptionWithEmptyQuantityField(): void
     {
         // Arrange
@@ -262,9 +229,6 @@ class AddConfiguredBundleToGuestCartTest extends Unit
         $this->tester->getFacade()->addConfiguredBundleToGuestCart($createConfiguredBundleRequestTransfer);
     }
 
-    /**
-     * @return void
-     */
     public function testAddConfiguredBundleToGuestCartThrowsExceptionWithEmptyTemplateField(): void
     {
         // Arrange
@@ -278,9 +242,6 @@ class AddConfiguredBundleToGuestCartTest extends Unit
         $this->tester->getFacade()->addConfiguredBundleToGuestCart($createConfiguredBundleRequestTransfer);
     }
 
-    /**
-     * @return void
-     */
     public function testAddConfiguredBundleToGuestCartThrowsExceptionWithEmptyTemplateUuidField(): void
     {
         // Arrange
@@ -294,9 +255,6 @@ class AddConfiguredBundleToGuestCartTest extends Unit
         $this->tester->getFacade()->addConfiguredBundleToGuestCart($createConfiguredBundleRequestTransfer);
     }
 
-    /**
-     * @return void
-     */
     public function testAddConfiguredBundleToGuestCartThrowsExceptionWithEmptyTemplateNameField(): void
     {
         // Arrange
@@ -310,9 +268,6 @@ class AddConfiguredBundleToGuestCartTest extends Unit
         $this->tester->getFacade()->addConfiguredBundleToGuestCart($createConfiguredBundleRequestTransfer);
     }
 
-    /**
-     * @return void
-     */
     public function testAddConfiguredBundleToGuestCartAddsConfiguredBundleToFakePersistentCart(): void
     {
         // Arrange
@@ -326,9 +281,6 @@ class AddConfiguredBundleToGuestCartTest extends Unit
         $this->assertFalse($quoteResponseTransfer->getIsSuccessful());
     }
 
-    /**
-     * @return void
-     */
     public function testAddConfiguredBundleToGuestCartAddsConfiguredBundleToPersistentCartWithoutWritePermissions(): void
     {
         // Arrange
@@ -355,9 +307,6 @@ class AddConfiguredBundleToGuestCartTest extends Unit
         );
     }
 
-    /**
-     * @return void
-     */
     public function testAddConfiguredBundleToGuestCartAddsConfiguredBundleToPersistentCartWithErrorDuringPersistentFacadeCall(): void
     {
         // Arrange

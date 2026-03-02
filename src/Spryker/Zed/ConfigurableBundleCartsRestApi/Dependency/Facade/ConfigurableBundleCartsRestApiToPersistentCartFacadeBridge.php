@@ -25,31 +25,16 @@ class ConfigurableBundleCartsRestApiToPersistentCartFacadeBridge implements Conf
         $this->persistentCartFacade = $persistentCartFacade;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\PersistentCartChangeTransfer $persistentCartChangeTransfer
-     *
-     * @return \Generated\Shared\Transfer\QuoteResponseTransfer
-     */
     public function add(PersistentCartChangeTransfer $persistentCartChangeTransfer): QuoteResponseTransfer
     {
         return $this->persistentCartFacade->add($persistentCartChangeTransfer);
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\PersistentCartChangeTransfer $persistentCartChangeTransfer
-     *
-     * @return \Generated\Shared\Transfer\QuoteResponseTransfer
-     */
     public function updateQuantity(PersistentCartChangeTransfer $persistentCartChangeTransfer): QuoteResponseTransfer
     {
         return $this->persistentCartFacade->updateQuantity($persistentCartChangeTransfer);
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\PersistentCartChangeTransfer $persistentCartChangeTransfer
-     *
-     * @return \Generated\Shared\Transfer\QuoteResponseTransfer
-     */
     public function remove(PersistentCartChangeTransfer $persistentCartChangeTransfer): QuoteResponseTransfer
     {
         return $this->persistentCartFacade->remove($persistentCartChangeTransfer);

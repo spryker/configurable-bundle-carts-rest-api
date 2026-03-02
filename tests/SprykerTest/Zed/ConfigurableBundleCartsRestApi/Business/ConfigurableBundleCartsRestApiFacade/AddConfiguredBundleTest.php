@@ -52,9 +52,6 @@ class AddConfiguredBundleTest extends Unit
      */
     protected $tester;
 
-    /**
-     * @return void
-     */
     public function testAddConfiguredBundleAddsConfiguredBundleToPersistentCart(): void
     {
         // Arrange
@@ -73,9 +70,6 @@ class AddConfiguredBundleTest extends Unit
         $this->assertNotNull($quoteResponseTransfer->getQuoteTransfer()->getItems()->offsetGet(1)->getConfiguredBundleItem());
     }
 
-    /**
-     * @return void
-     */
     public function testAddConfiguredBundleThrowsExceptionWithEmptyQuoteField(): void
     {
         // Arrange
@@ -89,9 +83,6 @@ class AddConfiguredBundleTest extends Unit
         $this->tester->getFacade()->addConfiguredBundle($createConfiguredBundleRequestTransfer);
     }
 
-    /**
-     * @return void
-     */
     public function testAddConfiguredBundleThrowsExceptionWithEmptyQuoteUuidField(): void
     {
         // Arrange
@@ -105,9 +96,6 @@ class AddConfiguredBundleTest extends Unit
         $this->tester->getFacade()->addConfiguredBundle($createConfiguredBundleRequestTransfer);
     }
 
-    /**
-     * @return void
-     */
     public function testAddConfiguredBundleThrowsExceptionWithEmptyCustomerField(): void
     {
         // Arrange
@@ -121,9 +109,6 @@ class AddConfiguredBundleTest extends Unit
         $this->tester->getFacade()->addConfiguredBundle($createConfiguredBundleRequestTransfer);
     }
 
-    /**
-     * @return void
-     */
     public function testAddConfiguredBundleThrowsExceptionWithEmptyQuoteCustomerReferenceField(): void
     {
         // Arrange
@@ -137,9 +122,6 @@ class AddConfiguredBundleTest extends Unit
         $this->tester->getFacade()->addConfiguredBundle($createConfiguredBundleRequestTransfer);
     }
 
-    /**
-     * @return void
-     */
     public function testAddConfiguredBundleThrowsExceptionWithEmptyCustomerReferenceField(): void
     {
         // Arrange
@@ -153,9 +135,6 @@ class AddConfiguredBundleTest extends Unit
         $this->tester->getFacade()->addConfiguredBundle($createConfiguredBundleRequestTransfer);
     }
 
-    /**
-     * @return void
-     */
     public function testAddConfiguredBundleThrowsExceptionWithEmptyItemsField(): void
     {
         // Arrange
@@ -169,9 +148,6 @@ class AddConfiguredBundleTest extends Unit
         $this->tester->getFacade()->addConfiguredBundle($createConfiguredBundleRequestTransfer);
     }
 
-    /**
-     * @return void
-     */
     public function testAddConfiguredBundleThrowsExceptionWithEmptyConfiguredBundleField(): void
     {
         // Arrange
@@ -185,9 +161,6 @@ class AddConfiguredBundleTest extends Unit
         $this->tester->getFacade()->addConfiguredBundle($createConfiguredBundleRequestTransfer);
     }
 
-    /**
-     * @return void
-     */
     public function testAddConfiguredBundleThrowsExceptionWithEmptyQuantityField(): void
     {
         // Arrange
@@ -201,9 +174,6 @@ class AddConfiguredBundleTest extends Unit
         $this->tester->getFacade()->addConfiguredBundle($createConfiguredBundleRequestTransfer);
     }
 
-    /**
-     * @return void
-     */
     public function testAddConfiguredBundleThrowsExceptionWithEmptyTemplateField(): void
     {
         // Arrange
@@ -217,9 +187,6 @@ class AddConfiguredBundleTest extends Unit
         $this->tester->getFacade()->addConfiguredBundle($createConfiguredBundleRequestTransfer);
     }
 
-    /**
-     * @return void
-     */
     public function testAddConfiguredBundleThrowsExceptionWithEmptyTemplateUuidField(): void
     {
         // Arrange
@@ -233,9 +200,6 @@ class AddConfiguredBundleTest extends Unit
         $this->tester->getFacade()->addConfiguredBundle($createConfiguredBundleRequestTransfer);
     }
 
-    /**
-     * @return void
-     */
     public function testAddConfiguredBundleThrowsExceptionWithEmptyTemplateNameField(): void
     {
         // Arrange
@@ -249,9 +213,6 @@ class AddConfiguredBundleTest extends Unit
         $this->tester->getFacade()->addConfiguredBundle($createConfiguredBundleRequestTransfer);
     }
 
-    /**
-     * @return void
-     */
     public function testAddConfiguredBundleAddsConfiguredBundleToFakePersistentCart(): void
     {
         // Arrange
@@ -265,9 +226,6 @@ class AddConfiguredBundleTest extends Unit
         $this->assertFalse($quoteResponseTransfer->getIsSuccessful());
     }
 
-    /**
-     * @return void
-     */
     public function testAddConfiguredBundleAddsConfiguredBundleToPersistentCartWithoutWritePermissions(): void
     {
         // Arrange
@@ -294,9 +252,6 @@ class AddConfiguredBundleTest extends Unit
         );
     }
 
-    /**
-     * @return void
-     */
     public function testAddConfiguredBundleAddsConfiguredBundleToPersistentCartWithErrorDuringPersistentFacadeCall(): void
     {
         // Arrange

@@ -11,10 +11,5 @@ use Generated\Shared\Transfer\ConfiguredBundleTransfer;
 
 interface ConfigurableBundleCartsRestApiToConfigurableBundleServiceInterface
 {
-    /**
-     * @param \Generated\Shared\Transfer\ConfiguredBundleTransfer $configuredBundleTransfer
-     *
-     * @return \Generated\Shared\Transfer\ConfiguredBundleTransfer
-     */
     public function expandConfiguredBundleWithGroupKey(ConfiguredBundleTransfer $configuredBundleTransfer): ConfiguredBundleTransfer;
 }

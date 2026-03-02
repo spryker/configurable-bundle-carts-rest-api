@@ -20,21 +20,11 @@ class ItemMapper implements ItemMapperInterface
      */
     protected $glossaryStorageClient;
 
-    /**
-     * @param \Spryker\Glue\ConfigurableBundleCartsRestApi\Dependency\Client\ConfigurableBundleCartsRestApiToGlossaryStorageClientInterface $glossaryStorageClient
-     */
     public function __construct(ConfigurableBundleCartsRestApiToGlossaryStorageClientInterface $glossaryStorageClient)
     {
         $this->glossaryStorageClient = $glossaryStorageClient;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\ItemTransfer $itemTransfer
-     * @param \Generated\Shared\Transfer\RestItemsAttributesTransfer $restItemsAttributesTransfer
-     * @param string $localeName
-     *
-     * @return \Generated\Shared\Transfer\RestItemsAttributesTransfer
-     */
     public function mapItemTransferToRestItemsAttributesTransfer(
         ItemTransfer $itemTransfer,
         RestItemsAttributesTransfer $restItemsAttributesTransfer,
@@ -57,12 +47,6 @@ class ItemMapper implements ItemMapperInterface
         return $this->translateConfiguredBundleTemplate($restItemsAttributesTransfer, $localeName);
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\RestItemsAttributesTransfer $restItemsAttributesTransfer
-     * @param string $localeName
-     *
-     * @return \Generated\Shared\Transfer\RestItemsAttributesTransfer
-     */
     protected function translateConfiguredBundleTemplate(
         RestItemsAttributesTransfer $restItemsAttributesTransfer,
         string $localeName

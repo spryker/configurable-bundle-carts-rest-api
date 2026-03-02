@@ -56,9 +56,6 @@ class RemoveConfiguredBundleTest extends Unit
      */
     protected $tester;
 
-    /**
-     * @return void
-     */
     public function setUp(): void
     {
         parent::setUp();
@@ -74,9 +71,6 @@ class RemoveConfiguredBundleTest extends Unit
         ]);
     }
 
-    /**
-     * @return void
-     */
     public function testRemoveConfiguredBundleUpdatesConfiguredBundleQuantity(): void
     {
         // Arrange
@@ -90,9 +84,6 @@ class RemoveConfiguredBundleTest extends Unit
         $this->assertEmpty($quoteResponseTransfer->getQuoteTransfer()->getItems());
     }
 
-    /**
-     * @return void
-     */
     public function testRemoveConfiguredBundleThrowsExceptionWithEmptyGroupKeyField(): void
     {
         // Arrange
@@ -106,9 +97,6 @@ class RemoveConfiguredBundleTest extends Unit
         $this->tester->getFacade()->removeConfiguredBundle($updateConfiguredBundleRequestTransfer);
     }
 
-    /**
-     * @return void
-     */
     public function testRemoveConfiguredBundleThrowsExceptionWithEmptyQuoteField(): void
     {
         // Arrange
@@ -122,9 +110,6 @@ class RemoveConfiguredBundleTest extends Unit
         $this->tester->getFacade()->removeConfiguredBundle($updateConfiguredBundleRequestTransfer);
     }
 
-    /**
-     * @return void
-     */
     public function testRemoveConfiguredBundleThrowsExceptionWithEmptyQuoteUuidField(): void
     {
         // Arrange
@@ -138,9 +123,6 @@ class RemoveConfiguredBundleTest extends Unit
         $this->tester->getFacade()->removeConfiguredBundle($updateConfiguredBundleRequestTransfer);
     }
 
-    /**
-     * @return void
-     */
     public function testRemoveConfiguredBundleThrowsExceptionWithEmptyCustomerField(): void
     {
         // Arrange
@@ -154,9 +136,6 @@ class RemoveConfiguredBundleTest extends Unit
         $this->tester->getFacade()->removeConfiguredBundle($updateConfiguredBundleRequestTransfer);
     }
 
-    /**
-     * @return void
-     */
     public function testRemoveConfiguredBundleThrowsExceptionWithEmptyQuoteCustomerReferenceField(): void
     {
         // Arrange
@@ -170,9 +149,6 @@ class RemoveConfiguredBundleTest extends Unit
         $this->tester->getFacade()->removeConfiguredBundle($updateConfiguredBundleRequestTransfer);
     }
 
-    /**
-     * @return void
-     */
     public function testRemoveConfiguredBundleThrowsExceptionWithEmptyCustomerReferenceField(): void
     {
         // Arrange
@@ -186,9 +162,6 @@ class RemoveConfiguredBundleTest extends Unit
         $this->tester->getFacade()->removeConfiguredBundle($updateConfiguredBundleRequestTransfer);
     }
 
-    /**
-     * @return void
-     */
     public function testRemoveConfiguredBundleRemovesConfiguredBundleFromFakePersistentCart(): void
     {
         // Arrange
@@ -202,9 +175,6 @@ class RemoveConfiguredBundleTest extends Unit
         $this->assertFalse($quoteResponseTransfer->getIsSuccessful());
     }
 
-    /**
-     * @return void
-     */
     public function testRemoveConfiguredBundleRemovesConfiguredBundleFromPersistentCartWithoutWritePermissions(): void
     {
         // Arrange
@@ -231,9 +201,6 @@ class RemoveConfiguredBundleTest extends Unit
         );
     }
 
-    /**
-     * @return void
-     */
     public function testRemoveConfiguredBundleRemovesConfiguredBundleFromPersistentCartWithErrorDuringPersistentFacadeCall(): void
     {
         // Arrange

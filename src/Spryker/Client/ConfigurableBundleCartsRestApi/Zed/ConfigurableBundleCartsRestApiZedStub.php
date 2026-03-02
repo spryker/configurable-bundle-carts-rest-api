@@ -19,9 +19,6 @@ class ConfigurableBundleCartsRestApiZedStub implements ConfigurableBundleCartsRe
      */
     protected $zedRequestClient;
 
-    /**
-     * @param \Spryker\Client\ConfigurableBundleCartsRestApi\Dependency\Client\ConfigurableBundleCartsRestApiToZedRequestClientInterface $zedRequestClient
-     */
     public function __construct(ConfigurableBundleCartsRestApiToZedRequestClientInterface $zedRequestClient)
     {
         $this->zedRequestClient = $zedRequestClient;

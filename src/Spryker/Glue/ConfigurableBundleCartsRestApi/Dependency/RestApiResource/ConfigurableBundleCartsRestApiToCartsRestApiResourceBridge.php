@@ -26,12 +26,6 @@ class ConfigurableBundleCartsRestApiToCartsRestApiResourceBridge implements Conf
         $this->cartsRestApiResource = $cartsRestApiResource;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
-     */
     public function createGuestCartRestResponse(
         QuoteTransfer $quoteTransfer,
         RestRequestInterface $restRequest
@@ -39,12 +33,6 @@ class ConfigurableBundleCartsRestApiToCartsRestApiResourceBridge implements Conf
         return $this->cartsRestApiResource->createGuestCartRestResponse($quoteTransfer, $restRequest);
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
-     */
     public function createCartRestResponse(
         QuoteTransfer $quoteTransfer,
         RestRequestInterface $restRequest

@@ -26,20 +26,11 @@ class ConfiguredBundleMapper implements ConfiguredBundleMapperInterface
      */
     protected ConfigurableBundleCartsRestApiToConfigurableBundleServiceInterface $configurableBundleService;
 
-    /**
-     * @param \Spryker\Zed\ConfigurableBundleCartsRestApi\Dependency\Service\ConfigurableBundleCartsRestApiToConfigurableBundleServiceInterface $configurableBundleService
-     */
     public function __construct(ConfigurableBundleCartsRestApiToConfigurableBundleServiceInterface $configurableBundleService)
     {
         $this->configurableBundleService = $configurableBundleService;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\CreateConfiguredBundleRequestTransfer $createConfiguredBundleRequestTransfer
-     * @param \Generated\Shared\Transfer\PersistentCartChangeTransfer $persistentCartChangeTransfer
-     *
-     * @return \Generated\Shared\Transfer\PersistentCartChangeTransfer
-     */
     public function mapCreateConfiguredBundleRequestToPersistentCartChange(
         CreateConfiguredBundleRequestTransfer $createConfiguredBundleRequestTransfer,
         PersistentCartChangeTransfer $persistentCartChangeTransfer
@@ -56,12 +47,6 @@ class ConfiguredBundleMapper implements ConfiguredBundleMapperInterface
         return $persistentCartChangeTransfer;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\UpdateConfiguredBundleRequestTransfer $updateConfiguredBundleRequestTransfer
-     * @param \Generated\Shared\Transfer\PersistentCartChangeTransfer $persistentCartChangeTransfer
-     *
-     * @return \Generated\Shared\Transfer\PersistentCartChangeTransfer
-     */
     public function mapUpdateConfiguredBundleRequestToPersistentCartChange(
         UpdateConfiguredBundleRequestTransfer $updateConfiguredBundleRequestTransfer,
         PersistentCartChangeTransfer $persistentCartChangeTransfer
@@ -94,11 +79,6 @@ class ConfiguredBundleMapper implements ConfiguredBundleMapperInterface
         return $persistentCartChangeTransfer;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\ConfiguredBundleTransfer $configuredBundleTransfer
-     *
-     * @return \Generated\Shared\Transfer\ConfiguredBundleTransfer
-     */
     protected function getSlimConfiguredBundleTransfer(ConfiguredBundleTransfer $configuredBundleTransfer): ConfiguredBundleTransfer
     {
         $configuredBundleTransfer = $this->configurableBundleService->expandConfiguredBundleWithGroupKey($configuredBundleTransfer);
@@ -113,12 +93,6 @@ class ConfiguredBundleMapper implements ConfiguredBundleMapperInterface
             );
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\ConfiguredBundleTransfer $configuredBundleTransfer
-     * @param \Generated\Shared\Transfer\ItemTransfer $itemTransfer
-     *
-     * @return \Generated\Shared\Transfer\ItemTransfer
-     */
     protected function getSlimItemTransfer(ConfiguredBundleTransfer $configuredBundleTransfer, ItemTransfer $itemTransfer): ItemTransfer
     {
         $itemTransfer

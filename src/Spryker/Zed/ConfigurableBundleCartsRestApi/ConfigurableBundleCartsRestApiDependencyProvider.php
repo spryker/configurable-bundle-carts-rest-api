@@ -39,11 +39,6 @@ class ConfigurableBundleCartsRestApiDependencyProvider extends AbstractBundleDep
      */
     public const SERVICE_CONFIGURABLE_BUNDLE = 'SERVICE_CONFIGURABLE_BUNDLE';
 
-    /**
-     * @param \Spryker\Zed\Kernel\Container $container
-     *
-     * @return \Spryker\Zed\Kernel\Container
-     */
     public function provideBusinessLayerDependencies(Container $container): Container
     {
         $container = parent::provideBusinessLayerDependencies($container);
@@ -56,11 +51,6 @@ class ConfigurableBundleCartsRestApiDependencyProvider extends AbstractBundleDep
         return $container;
     }
 
-    /**
-     * @param \Spryker\Zed\Kernel\Container $container
-     *
-     * @return \Spryker\Zed\Kernel\Container
-     */
     protected function addPersistentCartFacade(Container $container): Container
     {
         $container->set(static::FACADE_PERSISTENT_CART, function (Container $container) {
@@ -70,11 +60,6 @@ class ConfigurableBundleCartsRestApiDependencyProvider extends AbstractBundleDep
         return $container;
     }
 
-    /**
-     * @param \Spryker\Zed\Kernel\Container $container
-     *
-     * @return \Spryker\Zed\Kernel\Container
-     */
     protected function addCartsRestApiFacade(Container $container): Container
     {
         $container->set(static::FACADE_CARTS_REST_API, function (Container $container) {
@@ -84,11 +69,6 @@ class ConfigurableBundleCartsRestApiDependencyProvider extends AbstractBundleDep
         return $container;
     }
 
-    /**
-     * @param \Spryker\Zed\Kernel\Container $container
-     *
-     * @return \Spryker\Zed\Kernel\Container
-     */
     protected function addStoreFacade(Container $container): Container
     {
         $container->set(static::FACADE_STORE, function (Container $container) {
@@ -98,11 +78,6 @@ class ConfigurableBundleCartsRestApiDependencyProvider extends AbstractBundleDep
         return $container;
     }
 
-    /**
-     * @param \Spryker\Zed\Kernel\Container $container
-     *
-     * @return \Spryker\Zed\Kernel\Container
-     */
     protected function addConfigurableBundleService(Container $container): Container
     {
         $container->set(static::SERVICE_CONFIGURABLE_BUNDLE, function (Container $container) {

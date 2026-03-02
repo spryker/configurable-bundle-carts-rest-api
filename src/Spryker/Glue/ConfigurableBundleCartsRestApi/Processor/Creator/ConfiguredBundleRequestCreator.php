@@ -32,10 +32,6 @@ class ConfiguredBundleRequestCreator implements ConfiguredBundleRequestCreatorIn
      */
     protected $configuredBundleMapper;
 
-    /**
-     * @param \Spryker\Glue\ConfigurableBundleCartsRestApi\Dependency\Client\ConfigurableBundleCartsRestApiToConfigurableBundleStorageClientInterface $configurableBundleStorageClient
-     * @param \Spryker\Glue\ConfigurableBundleCartsRestApi\Processor\Mapper\ConfiguredBundleMapperInterface $configuredBundleMapper
-     */
     public function __construct(
         ConfigurableBundleCartsRestApiToConfigurableBundleStorageClientInterface $configurableBundleStorageClient,
         ConfiguredBundleMapperInterface $configuredBundleMapper
@@ -44,12 +40,6 @@ class ConfiguredBundleRequestCreator implements ConfiguredBundleRequestCreatorIn
         $this->configuredBundleMapper = $configuredBundleMapper;
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     * @param \Generated\Shared\Transfer\RestConfiguredBundlesAttributesTransfer $restConfiguredBundlesAttributesTransfer
-     *
-     * @return \Generated\Shared\Transfer\CreateConfiguredBundleRequestTransfer|null
-     */
     public function createCreateConfiguredBundleRequest(
         RestRequestInterface $restRequest,
         RestConfiguredBundlesAttributesTransfer $restConfiguredBundlesAttributesTransfer
@@ -71,11 +61,6 @@ class ConfiguredBundleRequestCreator implements ConfiguredBundleRequestCreatorIn
         );
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     *
-     * @return \Generated\Shared\Transfer\UpdateConfiguredBundleRequestTransfer
-     */
     public function createUpdateConfiguredBundleRequest(RestRequestInterface $restRequest): UpdateConfiguredBundleRequestTransfer
     {
         /** @var \Generated\Shared\Transfer\RestUserTransfer $restUserTransfer */
@@ -102,13 +87,6 @@ class ConfiguredBundleRequestCreator implements ConfiguredBundleRequestCreatorIn
             ->setGroupKey($restRequest->getResource()->getId());
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     * @param \Generated\Shared\Transfer\ConfigurableBundleTemplateStorageTransfer $configurableBundleTemplateStorageTransfer
-     * @param \Generated\Shared\Transfer\RestConfiguredBundlesAttributesTransfer $restConfiguredBundlesAttributesTransfer
-     *
-     * @return \Generated\Shared\Transfer\CreateConfiguredBundleRequestTransfer
-     */
     protected function mapCreateConfiguredBundleRequest(
         RestRequestInterface $restRequest,
         ConfigurableBundleTemplateStorageTransfer $configurableBundleTemplateStorageTransfer,

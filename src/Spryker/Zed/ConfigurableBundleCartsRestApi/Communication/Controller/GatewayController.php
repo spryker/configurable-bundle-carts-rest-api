@@ -17,44 +17,24 @@ use Spryker\Zed\Kernel\Communication\Controller\AbstractGatewayController;
  */
 class GatewayController extends AbstractGatewayController
 {
-    /**
-     * @param \Generated\Shared\Transfer\CreateConfiguredBundleRequestTransfer $createConfiguredBundleRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\QuoteResponseTransfer
-     */
     public function addConfiguredBundleAction(
         CreateConfiguredBundleRequestTransfer $createConfiguredBundleRequestTransfer
     ): QuoteResponseTransfer {
         return $this->getFacade()->addConfiguredBundle($createConfiguredBundleRequestTransfer);
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\CreateConfiguredBundleRequestTransfer $createConfiguredBundleRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\QuoteResponseTransfer
-     */
     public function addConfiguredBundleToGuestCartAction(
         CreateConfiguredBundleRequestTransfer $createConfiguredBundleRequestTransfer
     ): QuoteResponseTransfer {
         return $this->getFacade()->addConfiguredBundleToGuestCart($createConfiguredBundleRequestTransfer);
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\UpdateConfiguredBundleRequestTransfer $updateConfiguredBundleRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\QuoteResponseTransfer
-     */
     public function updateConfiguredBundleQuantityAction(
         UpdateConfiguredBundleRequestTransfer $updateConfiguredBundleRequestTransfer
     ): QuoteResponseTransfer {
         return $this->getFacade()->updateConfiguredBundleQuantity($updateConfiguredBundleRequestTransfer);
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\UpdateConfiguredBundleRequestTransfer $updateConfiguredBundleRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\QuoteResponseTransfer
-     */
     public function removeConfiguredBundleAction(
         UpdateConfiguredBundleRequestTransfer $updateConfiguredBundleRequestTransfer
     ): QuoteResponseTransfer {

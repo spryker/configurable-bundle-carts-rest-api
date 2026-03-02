@@ -14,23 +14,11 @@ use Generated\Shared\Transfer\RestErrorMessageTransfer;
 
 interface ConfiguredBundleMapperInterface
 {
-    /**
-     * @param \Generated\Shared\Transfer\RestConfiguredBundlesAttributesTransfer $restConfiguredBundlesAttributesTransfer
-     * @param \Generated\Shared\Transfer\CreateConfiguredBundleRequestTransfer $createConfiguredBundleRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\CreateConfiguredBundleRequestTransfer
-     */
     public function mapRestConfiguredBundlesAttributesToCreateConfiguredBundleRequest(
         RestConfiguredBundlesAttributesTransfer $restConfiguredBundlesAttributesTransfer,
         CreateConfiguredBundleRequestTransfer $createConfiguredBundleRequestTransfer
     ): CreateConfiguredBundleRequestTransfer;
 
-    /**
-     * @param \Generated\Shared\Transfer\QuoteErrorTransfer $quoteErrorTransfer
-     * @param \Generated\Shared\Transfer\RestErrorMessageTransfer $restErrorMessageTransfer
-     *
-     * @return \Generated\Shared\Transfer\RestErrorMessageTransfer
-     */
     public function mapQuoteErrorTransferToRestErrorMessageTransfer(
         QuoteErrorTransfer $quoteErrorTransfer,
         RestErrorMessageTransfer $restErrorMessageTransfer

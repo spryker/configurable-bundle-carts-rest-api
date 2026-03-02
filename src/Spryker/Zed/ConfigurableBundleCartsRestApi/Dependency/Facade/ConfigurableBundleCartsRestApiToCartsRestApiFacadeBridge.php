@@ -27,31 +27,16 @@ class ConfigurableBundleCartsRestApiToCartsRestApiFacadeBridge implements Config
         $this->cartsRestApiFacade = $cartsRestApiFacade;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
-     *
-     * @return \Generated\Shared\Transfer\QuoteResponseTransfer
-     */
     public function createQuote(QuoteTransfer $quoteTransfer): QuoteResponseTransfer
     {
         return $this->cartsRestApiFacade->createQuote($quoteTransfer);
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
-     *
-     * @return \Generated\Shared\Transfer\QuoteResponseTransfer
-     */
     public function findQuoteByUuid(QuoteTransfer $quoteTransfer): QuoteResponseTransfer
     {
         return $this->cartsRestApiFacade->findQuoteByUuid($quoteTransfer);
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\QuoteCriteriaFilterTransfer $quoteCriteriaFilterTransfer
-     *
-     * @return \Generated\Shared\Transfer\QuoteCollectionTransfer
-     */
     public function getQuoteCollection(QuoteCriteriaFilterTransfer $quoteCriteriaFilterTransfer): QuoteCollectionTransfer
     {
         return $this->cartsRestApiFacade->getQuoteCollection($quoteCriteriaFilterTransfer);

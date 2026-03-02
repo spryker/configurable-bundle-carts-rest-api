@@ -41,12 +41,6 @@ class ConfiguredBundleWriter implements ConfiguredBundleWriterInterface
      */
     protected $quotePermissionChecker;
 
-    /**
-     * @param \Spryker\Zed\ConfigurableBundleCartsRestApi\Dependency\Facade\ConfigurableBundleCartsRestApiToPersistentCartFacadeInterface $persistentCartFacade
-     * @param \Spryker\Zed\ConfigurableBundleCartsRestApi\Dependency\Facade\ConfigurableBundleCartsRestApiToCartsRestApiFacadeInterface $cartsRestApiFacade
-     * @param \Spryker\Zed\ConfigurableBundleCartsRestApi\Business\Mapper\ConfiguredBundleMapperInterface $configuredBundleMapper
-     * @param \Spryker\Zed\ConfigurableBundleCartsRestApi\Business\Checker\QuotePermissionCheckerInterface $quotePermissionChecker
-     */
     public function __construct(
         ConfigurableBundleCartsRestApiToPersistentCartFacadeInterface $persistentCartFacade,
         ConfigurableBundleCartsRestApiToCartsRestApiFacadeInterface $cartsRestApiFacade,
@@ -59,11 +53,6 @@ class ConfiguredBundleWriter implements ConfiguredBundleWriterInterface
         $this->quotePermissionChecker = $quotePermissionChecker;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\CreateConfiguredBundleRequestTransfer $createConfiguredBundleRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\QuoteResponseTransfer
-     */
     public function addConfiguredBundle(
         CreateConfiguredBundleRequestTransfer $createConfiguredBundleRequestTransfer
     ): QuoteResponseTransfer {
@@ -88,11 +77,6 @@ class ConfiguredBundleWriter implements ConfiguredBundleWriterInterface
         return $quoteResponseTransfer;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\UpdateConfiguredBundleRequestTransfer $updateConfiguredBundleRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\QuoteResponseTransfer
-     */
     public function updateConfiguredBundleQuantity(
         UpdateConfiguredBundleRequestTransfer $updateConfiguredBundleRequestTransfer
     ): QuoteResponseTransfer {
@@ -123,11 +107,6 @@ class ConfiguredBundleWriter implements ConfiguredBundleWriterInterface
         return $quoteResponseTransfer;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\UpdateConfiguredBundleRequestTransfer $updateConfiguredBundleRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\QuoteResponseTransfer
-     */
     public function removeConfiguredBundle(
         UpdateConfiguredBundleRequestTransfer $updateConfiguredBundleRequestTransfer
     ): QuoteResponseTransfer {
@@ -156,11 +135,6 @@ class ConfiguredBundleWriter implements ConfiguredBundleWriterInterface
         return $quoteResponseTransfer;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
-     *
-     * @return \Generated\Shared\Transfer\QuoteResponseTransfer
-     */
     protected function checkQuoteFromRequest(QuoteTransfer $quoteTransfer): QuoteResponseTransfer
     {
         $quoteResponseTransfer = $this->cartsRestApiFacade->findQuoteByUuid($quoteTransfer);
@@ -176,11 +150,6 @@ class ConfiguredBundleWriter implements ConfiguredBundleWriterInterface
         return $quoteResponseTransfer;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\CreateConfiguredBundleRequestTransfer $createConfiguredBundleRequestTransfer
-     *
-     * @return void
-     */
     protected function assertRequiredCreateRequestProperties(CreateConfiguredBundleRequestTransfer $createConfiguredBundleRequestTransfer): void
     {
         $createConfiguredBundleRequestTransfer
@@ -203,11 +172,6 @@ class ConfiguredBundleWriter implements ConfiguredBundleWriterInterface
                     ->requireName();
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\UpdateConfiguredBundleRequestTransfer $updateConfiguredBundleRequestTransfer
-     *
-     * @return void
-     */
     protected function assertRequiredUpdateRequestProperties(UpdateConfiguredBundleRequestTransfer $updateConfiguredBundleRequestTransfer): void
     {
         $updateConfiguredBundleRequestTransfer
@@ -221,12 +185,6 @@ class ConfiguredBundleWriter implements ConfiguredBundleWriterInterface
                     ->requireCustomerReference();
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\QuoteResponseTransfer $quoteResponseTransfer
-     * @param string $errorIdentifier
-     *
-     * @return \Generated\Shared\Transfer\QuoteResponseTransfer
-     */
     protected function addQuoteErrorToResponse(QuoteResponseTransfer $quoteResponseTransfer, string $errorIdentifier): QuoteResponseTransfer
     {
         return $quoteResponseTransfer

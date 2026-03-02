@@ -13,23 +13,11 @@ use Generated\Shared\Transfer\UpdateConfiguredBundleRequestTransfer;
 
 interface ConfiguredBundleMapperInterface
 {
-    /**
-     * @param \Generated\Shared\Transfer\CreateConfiguredBundleRequestTransfer $createConfiguredBundleRequestTransfer
-     * @param \Generated\Shared\Transfer\PersistentCartChangeTransfer $persistentCartChangeTransfer
-     *
-     * @return \Generated\Shared\Transfer\PersistentCartChangeTransfer
-     */
     public function mapCreateConfiguredBundleRequestToPersistentCartChange(
         CreateConfiguredBundleRequestTransfer $createConfiguredBundleRequestTransfer,
         PersistentCartChangeTransfer $persistentCartChangeTransfer
     ): PersistentCartChangeTransfer;
 
-    /**
-     * @param \Generated\Shared\Transfer\UpdateConfiguredBundleRequestTransfer $updateConfiguredBundleRequestTransfer
-     * @param \Generated\Shared\Transfer\PersistentCartChangeTransfer $persistentCartChangeTransfer
-     *
-     * @return \Generated\Shared\Transfer\PersistentCartChangeTransfer
-     */
     public function mapUpdateConfiguredBundleRequestToPersistentCartChange(
         UpdateConfiguredBundleRequestTransfer $updateConfiguredBundleRequestTransfer,
         PersistentCartChangeTransfer $persistentCartChangeTransfer

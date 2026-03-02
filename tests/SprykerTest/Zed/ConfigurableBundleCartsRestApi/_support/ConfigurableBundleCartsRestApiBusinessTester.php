@@ -64,9 +64,6 @@ class ConfigurableBundleCartsRestApiBusinessTester extends Actor
         return $configurableBundleCartsRestApiFacade;
     }
 
-    /**
-     * @return \Generated\Shared\Transfer\CreateConfiguredBundleRequestTransfer
-     */
     public function buildCreateConfiguredBundleRequest(): CreateConfiguredBundleRequestTransfer
     {
         $configurableBundleTemplateTransfer = $this->createActiveConfigurableBundleTemplate();
@@ -115,11 +112,6 @@ class ConfigurableBundleCartsRestApiBusinessTester extends Actor
             ->addItem($secondItemTransfer);
     }
 
-    /**
-     * @param int $quantity
-     *
-     * @return \Generated\Shared\Transfer\UpdateConfiguredBundleRequestTransfer
-     */
     public function buildUpdateConfiguredBundleRequest(int $quantity = 1): UpdateConfiguredBundleRequestTransfer
     {
         $quoteResponseTransfer = $this->getFacade()->addConfiguredBundle($this->buildCreateConfiguredBundleRequest());
@@ -130,11 +122,6 @@ class ConfigurableBundleCartsRestApiBusinessTester extends Actor
             ->setGroupKey($quoteResponseTransfer->getQuoteTransfer()->getItems()->offsetGet(0)->getConfiguredBundle()->getGroupKey());
     }
 
-    /**
-     * @param int|null $quantity
-     *
-     * @return \Generated\Shared\Transfer\ConfiguredBundleTransfer
-     */
     protected function createConfiguredBundle(?int $quantity = null): ConfiguredBundleTransfer
     {
         return (new ConfiguredBundleBuilder())->build()
@@ -143,12 +130,6 @@ class ConfigurableBundleCartsRestApiBusinessTester extends Actor
             ->setQuantity($quantity);
     }
 
-    /**
-     * @param string|null $slotUuid
-     * @param int|null $quantityPerSlot
-     *
-     * @return \Generated\Shared\Transfer\ConfiguredBundleItemTransfer
-     */
     protected function createConfiguredBundleItem(?string $slotUuid = null, ?int $quantityPerSlot = null): ConfiguredBundleItemTransfer
     {
         return (new ConfiguredBundleItemTransfer())

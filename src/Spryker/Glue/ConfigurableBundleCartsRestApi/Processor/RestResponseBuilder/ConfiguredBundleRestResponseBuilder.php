@@ -25,10 +25,6 @@ class ConfiguredBundleRestResponseBuilder implements ConfiguredBundleRestRespons
      */
     protected $configuredBundleMapper;
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceBuilderInterface $restResourceBuilder
-     * @param \Spryker\Glue\ConfigurableBundleCartsRestApi\Processor\Mapper\ConfiguredBundleMapperInterface $configuredBundleMapper
-     */
     public function __construct(
         RestResourceBuilderInterface $restResourceBuilder,
         ConfiguredBundleMapperInterface $configuredBundleMapper
@@ -37,19 +33,11 @@ class ConfiguredBundleRestResponseBuilder implements ConfiguredBundleRestRespons
         $this->configuredBundleMapper = $configuredBundleMapper;
     }
 
-    /**
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
-     */
     public function createRestResponse(): RestResponseInterface
     {
         return $this->restResourceBuilder->createRestResponse();
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\QuoteResponseTransfer $quoteResponseTransfer
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
-     */
     public function createFailedResponse(QuoteResponseTransfer $quoteResponseTransfer): RestResponseInterface
     {
         $restResponse = $this->restResourceBuilder->createRestResponse();
