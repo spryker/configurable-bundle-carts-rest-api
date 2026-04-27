@@ -16,7 +16,7 @@
     <transfer name="CreateConfiguredBundleRequest">
         <property name="items" type="Item[]" singular="item" description="A collection of items, typically in a cart, order, or list."/>
         <property name="configuredBundle" type="ConfiguredBundle" description="A product bundle that has been configured by the customer."/>
-        <property name="localeName" type="string" description="The name of a locale, such as &quot;en_US&quot; or &quot;de_DE&quot;."/>
+        <property name="localeName" type="string" description="The name of a locale, such as 'en_US' or 'de_DE'."/>
         <property name="quote" type="Quote" description="A data object representing a shopping cart before it becomes an order."/>
     </transfer>
 
