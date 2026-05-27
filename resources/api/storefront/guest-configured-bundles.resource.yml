@@ -1,0 +1,109 @@
+resource:
+    name: GuestConfiguredBundles
+    shortName: guest-configured-bundles
+    description: 'Configured bundle management for anonymous guest carts'
+
+    processor: Spryker\Glue\ConfigurableBundleCartsRestApi\Api\Storefront\Processor\GuestConfiguredBundlesStorefrontProcessor
+
+    operations:
+        - type: Post
+          description: 'Add a configured bundle to a guest cart'
+          uriTemplate: '/guest-carts/{cartId}/guest-configured-bundles'
+          read: false
+          uriVariables:
+              cartId:
+                  identifiers: [cartId]
+          openapiContext:
+              summary: 'Add configured bundle to guest cart'
+              description: 'Adds a configured bundle to the specified guest cart. Returns the updated guest cart. Requires X-Anonymous-Customer-Unique-Id header.'
+              responses:
+                  201:
+                      description: 'Configured bundle added; returns the updated guest cart.'
+                  400:
+                      description: 'Cart UUID is missing.'
+                  422:
+                      description: 'Invalid quantity, template not found, or bundle could not be added.'
+
+        - type: Patch
+          description: 'Update configured bundle quantity in a guest cart'
+          uriTemplate: '/guest-carts/{cartId}/guest-configured-bundles/{groupKey}'
+          read: false
+          uriVariables:
+              cartId:
+                  identifiers: [cartId]
+              groupKey:
+                  identifiers: [groupKey]
+          openapiContext:
+              summary: 'Update configured bundle quantity in guest cart'
+              description: 'Updates the quantity of an existing configured bundle in the specified guest cart. Returns the updated guest cart.'
+              responses:
+                  200:
+                      description: 'Configured bundle updated; returns the updated guest cart.'
+                  400:
+                      description: 'Cart UUID is missing or bundle group key not found in cart.'
+                  422:
+                      description: 'Invalid quantity or bundle could not be updated.'
+
+        - type: Delete
+          description: 'Remove a configured bundle from a guest cart'
+          uriTemplate: '/guest-carts/{cartId}/guest-configured-bundles/{groupKey}'
+          read: false
+          uriVariables:
+              cartId:
+                  identifiers: [cartId]
+              groupKey:
+                  identifiers: [groupKey]
+          openapiContext:
+              summary: 'Delete configured bundle from guest cart'
+              description: 'Removes a configured bundle from the specified guest cart.'
+              responses:
+                  204:
+                      description: 'Configured bundle removed.'
+                  400:
+                      description: 'Cart UUID is missing or bundle group key not found in cart.'
+                  422:
+                      description: 'Bundle could not be removed.'
+
+    properties:
+        groupKey:
+            type: string
+            identifier: true
+            writable: false
+            readable: true
+            required: false
+            description: 'Unique group key identifying the configured bundle instance in the guest cart'
+            openapiContext:
+                example: 'bundle-123e4567-e89b-12d3-a456-426614174000'
+
+        quantity:
+            type: mixed
+            writable: true
+            readable: true
+            required: true
+            description: 'Number of configured bundle units to add or set (must be a positive integer)'
+            openapiContext:
+                example: 1
+
+        templateUuid:
+            type: string
+            writable: true
+            readable: true
+            required: false
+            description: 'UUID of the configurable bundle template (required for POST)'
+            openapiContext:
+                example: 'c8291fd3-c6ca-5b8f-8ff5-eccd6cb787de'
+
+        items:
+            type: array
+            writable: true
+            readable: true
+            required: false
+            description: 'List of slot assignments for the configured bundle (required for POST). Each entry must contain sku, quantity, and slotUuid.'
+            openapiContext:
+                example:
+                    - sku: '112_312526171'
+                      quantity: 1
+                      slotUuid: '9626de80-6caa-57a9-a683-2846ec5b6914'
+                    - sku: '047_26408568'
+                      quantity: 2
+                      slotUuid: '2a5e55b1-993a-5510-864c-a4a18558aa75'
