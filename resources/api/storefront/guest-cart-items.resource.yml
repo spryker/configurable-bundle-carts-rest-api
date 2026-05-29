@@ -1,0 +1,29 @@
+resource:
+    name: GuestCartItems
+    shortName: guest-cart-items
+
+    properties:
+        configuredBundle:
+            type: mixed
+            writable: false
+            readable: true
+            required: false
+            description: 'Set when the guest-cart item belongs to a customer-assembled configurable bundle. Identifies the bundle instance by `groupKey` and references the bundle template the customer started from.'
+            openapiContext:
+                example:
+                    groupKey: 'bundle-group-key-example'
+                    templateUuid: 'bundle-template-uuid-example'
+                    templateName: 'Living Room Set'
+                    quantity: 1
+
+        configuredBundleItem:
+            type: mixed
+            writable: false
+            readable: true
+            required: false
+            description: 'Set when the guest-cart item is one slot of a configured bundle. Points back to the parent bundle (`groupKey`) and identifies which template slot this concrete product fulfils.'
+            openapiContext:
+                example:
+                    groupKey: 'bundle-group-key-example'
+                    slotUuid: 'bundle-slot-uuid-example'
+                    templateSlotName: 'Sofa'
