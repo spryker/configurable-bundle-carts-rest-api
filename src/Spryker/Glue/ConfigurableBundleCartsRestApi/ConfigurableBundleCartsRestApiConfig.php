@@ -15,16 +15,22 @@ use Symfony\Component\HttpFoundation\Response;
 class ConfigurableBundleCartsRestApiConfig extends AbstractBundleConfig
 {
     /**
+     * @api
+     *
      * @var string
      */
     public const RESOURCE_CONFIGURED_BUNDLES = 'configured-bundles';
 
     /**
+     * @api
+     *
      * @var string
      */
     public const RESOURCE_GUEST_CONFIGURED_BUNDLES = 'guest-configured-bundles';
 
     /**
+     * @api
+     *
      * @uses \Spryker\Glue\CartsRestApi\CartsRestApiConfig::RESOURCE_CARTS
      *
      * @var string
@@ -32,6 +38,8 @@ class ConfigurableBundleCartsRestApiConfig extends AbstractBundleConfig
     public const RESOURCE_CARTS = 'carts';
 
     /**
+     * @api
+     *
      * @uses \Spryker\Glue\CartsRestApi\CartsRestApiConfig::RESOURCE_GUEST_CARTS
      *
      * @var string
@@ -39,6 +47,8 @@ class ConfigurableBundleCartsRestApiConfig extends AbstractBundleConfig
     public const RESOURCE_GUEST_CARTS = 'guest-carts';
 
     /**
+     * @api
+     *
      * @uses \Spryker\Glue\CartsRestApi\CartsRestApiConfig::RESPONSE_CODE_CART_ID_MISSING
      *
      * @var string
@@ -46,6 +56,8 @@ class ConfigurableBundleCartsRestApiConfig extends AbstractBundleConfig
     public const RESPONSE_CODE_CART_ID_MISSING = '104';
 
     /**
+     * @api
+     *
      * @uses \Spryker\Glue\CartsRestApi\CartsRestApiConfig::RESPONSE_CODE_UNAUTHORIZED_CART_ACTION
      *
      * @var string
@@ -53,41 +65,57 @@ class ConfigurableBundleCartsRestApiConfig extends AbstractBundleConfig
     public const RESPONSE_CODE_UNAUTHORIZED_CART_ACTION = '115';
 
     /**
+     * @api
+     *
      * @var string
      */
     public const RESPONSE_CODE_CONFIGURED_BUNDLE_VALIDATION = '4001';
 
     /**
+     * @api
+     *
      * @var string
      */
     public const RESPONSE_CODE_CONFIGURABLE_BUNDLE_TEMPLATE_NOT_FOUND = '4002';
 
     /**
+     * @api
+     *
      * @var string
      */
     public const RESPONSE_CODE_CONFIGURED_BUNDLE_WRONG_QUANTITY = '4003';
 
     /**
+     * @api
+     *
      * @var string
      */
     public const RESPONSE_CODE_CONFIGURED_BUNDLE_NOT_FOUND = '4004';
 
     /**
+     * @api
+     *
      * @var string
      */
     public const RESPONSE_CODE_FAILED_ADDING_CONFIGURED_BUNDLE = '4005';
 
     /**
+     * @api
+     *
      * @var string
      */
     public const RESPONSE_CODE_FAILED_UPDATING_CONFIGURED_BUNDLE = '4006';
 
     /**
+     * @api
+     *
      * @var string
      */
     public const RESPONSE_CODE_FAILED_REMOVING_CONFIGURED_BUNDLE = '4007';
 
     /**
+     * @api
+     *
      * @uses \Spryker\Glue\CartsRestApi\CartsRestApiConfig::EXCEPTION_MESSAGE_CART_ID_MISSING
      *
      * @var string
@@ -95,6 +123,8 @@ class ConfigurableBundleCartsRestApiConfig extends AbstractBundleConfig
     public const RESPONSE_DETAILS_CART_ID_MISSING = 'Cart uuid is missing.';
 
     /**
+     * @api
+     *
      * @uses \Spryker\Glue\CartsRestApi\CartsRestApiConfig::EXCEPTION_MESSAGE_UNAUTHORIZED_CART_ACTION
      *
      * @var string
@@ -102,36 +132,50 @@ class ConfigurableBundleCartsRestApiConfig extends AbstractBundleConfig
     public const RESPONSE_DETAILS_UNAUTHORIZED_CART_ACTION = 'Unauthorized cart action.';
 
     /**
+     * @api
+     *
      * @var string
      */
     public const RESPONSE_DETAILS_CONFIGURED_BUNDLE_VALIDATION = 'There was a problem adding or updating the configured bundle.';
 
     /**
+     * @api
+     *
      * @var string
      */
     public const RESPONSE_DETAILS_CONFIGURABLE_BUNDLE_TEMPLATE_NOT_FOUND = 'Configurable bundle template not found.';
 
     /**
+     * @api
+     *
      * @var string
      */
     public const RESPONSE_DETAILS_CONFIGURED_BUNDLE_WRONG_QUANTITY = 'The quantity of the configured bundle should be more than zero.';
 
     /**
+     * @api
+     *
      * @var string
      */
     public const RESPONSE_DETAILS_CONFIGURED_BUNDLE_NOT_FOUND = 'Configured bundle with provided group key not found in cart.';
 
     /**
+     * @api
+     *
      * @var string
      */
     public const RESPONSE_DETAILS_FAILED_ADDING_CONFIGURED_BUNDLE = 'The configured bundle could not be added.';
 
     /**
+     * @api
+     *
      * @var string
      */
     public const RESPONSE_DETAILS_FAILED_UPDATING_CONFIGURED_BUNDLE = 'The configured bundle could not be updated.';
 
     /**
+     * @api
+     *
      * @var string
      */
     public const RESPONSE_DETAILS_FAILED_REMOVING_CONFIGURED_BUNDLE = 'The configured bundle could not be removed.';
