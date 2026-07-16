@@ -4,26 +4,67 @@ resource:
 
     properties:
         configuredBundle:
-            type: mixed
+            type: object
+            objectName: ConfiguredBundle
             writable: false
             readable: true
             required: false
             description: 'Set when the cart item belongs to a customer-assembled configurable bundle. Identifies the bundle instance by `groupKey` and references the bundle template the customer started from.'
-            openapiContext:
-                example:
-                    groupKey: 'bundle-group-key-example'
-                    templateUuid: 'bundle-template-uuid-example'
-                    templateName: 'Living Room Set'
-                    quantity: 1
+            properties:
+                groupKey:
+                    type: string
+                    description: 'Stable hash identifying the configured-bundle instance.'
+                    openapiContext:
+                        example: 'bundle-group-key-example'
+                template:
+                    type: object
+                    description: 'The bundle template the customer started from.'
+                    properties:
+                        uuid:
+                            type: string
+                            description: 'UUID of the bundle template.'
+                            openapiContext:
+                                example: 'bundle-template-uuid-example'
+                        name:
+                            type: string
+                            description: 'Human-readable name of the bundle template.'
+                            openapiContext:
+                                example: 'Living Room Set'
+                quantity:
+                    type: integer
+                    description: 'Number of this configured bundle in the cart.'
+                    openapiContext:
+                        example: 1
 
         configuredBundleItem:
-            type: mixed
+            type: object
+            objectName: ConfiguredBundleItem
             writable: false
             readable: true
             required: false
             description: 'Set when the cart item is one slot of a configured bundle. Points back to the parent bundle (`groupKey`) and identifies which template slot this concrete product fulfils.'
-            openapiContext:
-                example:
-                    groupKey: 'bundle-group-key-example'
-                    slotUuid: 'bundle-slot-uuid-example'
-                    templateSlotName: 'Sofa'
+            properties:
+                groupKey:
+                    type: string
+                    description: 'Stable hash of the parent configured-bundle instance.'
+                    openapiContext:
+                        example: 'bundle-group-key-example'
+                slot:
+                    type: object
+                    description: 'Template slot this item fulfils.'
+                    properties:
+                        uuid:
+                            type: string
+                            description: 'UUID of the template slot this item fulfils.'
+                            openapiContext:
+                                example: 'bundle-slot-uuid-example'
+                templateSlotName:
+                    type: string
+                    description: 'Human-readable name of the template slot.'
+                    openapiContext:
+                        example: 'Sofa'
+                quantityPerSlot:
+                    type: integer
+                    description: 'Quantity of this item required for the slot.'
+                    openapiContext:
+                        example: 1
