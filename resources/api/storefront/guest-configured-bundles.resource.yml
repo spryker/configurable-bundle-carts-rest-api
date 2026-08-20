@@ -20,7 +20,7 @@ resource:
                   201:
                       description: 'Configured bundle added; returns the updated guest cart.'
                   400:
-                      description: 'Cart UUID is missing.'
+                      description: 'Anonymous customer unique id header is missing (code 109).'
                   422:
                       description: 'Invalid quantity, template not found, or bundle could not be added.'
 
@@ -40,9 +40,9 @@ resource:
                   200:
                       description: 'Configured bundle updated; returns the updated guest cart.'
                   400:
-                      description: 'Cart UUID is missing or bundle group key not found in cart.'
+                      description: 'Anonymous customer unique id header is missing (code 109), or bundle group key not found in the cart (code 4004).'
                   422:
-                      description: 'Invalid quantity or bundle could not be updated.'
+                      description: 'Invalid quantity, cart not found, or bundle could not be updated.'
 
         - type: Delete
           description: 'Remove a configured bundle from a guest cart'
@@ -60,9 +60,9 @@ resource:
                   204:
                       description: 'Configured bundle removed.'
                   400:
-                      description: 'Cart UUID is missing or bundle group key not found in cart.'
+                      description: 'Anonymous customer unique id header is missing (code 109), or bundle group key not found in the cart (code 4004).'
                   422:
-                      description: 'Bundle could not be removed.'
+                      description: 'Cart not found, or bundle could not be removed.'
 
     properties:
         groupKey:
