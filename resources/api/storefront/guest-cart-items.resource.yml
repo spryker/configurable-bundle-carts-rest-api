@@ -9,7 +9,8 @@ resource:
             writable: false
             readable: true
             required: false
-            description: 'Set when the guest-cart item belongs to a customer-assembled configurable bundle. Identifies the bundle instance by `groupKey` and references the bundle template the customer started from.'
+            responseOptional: true
+            description: 'Set when the guest-cart item belongs to a customer-assembled configurable bundle. Identifies the bundle instance by `groupKey` and references the bundle template the customer started from. Such an item is added through the configured-bundles operations, so an item added by SKU carries none.'
             properties:
                 groupKey:
                     type: string
@@ -42,7 +43,8 @@ resource:
             writable: false
             readable: true
             required: false
-            description: 'Set when the guest-cart item is one slot of a configured bundle. Points back to the parent bundle (`groupKey`) and identifies which template slot this concrete product fulfils.'
+            responseOptional: true
+            description: 'Set when the guest-cart item is one slot of a configured bundle. Points back to the parent bundle (`groupKey`) and identifies which template slot this concrete product fulfils. Such an item is added through the configured-bundles operations, so an item added by SKU carries none.'
             properties:
                 groupKey:
                     type: string
