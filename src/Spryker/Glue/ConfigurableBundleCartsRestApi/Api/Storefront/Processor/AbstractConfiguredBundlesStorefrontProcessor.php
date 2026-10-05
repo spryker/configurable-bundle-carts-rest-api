@@ -89,10 +89,6 @@ abstract class AbstractConfiguredBundlesStorefrontProcessor extends AbstractStor
     {
         $payload = get_object_vars($data);
 
-        if (array_key_exists('quantity', $payload) && !is_int($payload['quantity'])) {
-            unset($payload['quantity']);
-        }
-
         return (new RestConfiguredBundlesAttributesTransfer())->fromArray(
             array_filter($payload, static fn ($value): bool => $value !== null),
             true,

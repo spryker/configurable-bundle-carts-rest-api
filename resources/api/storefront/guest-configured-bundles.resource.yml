@@ -5,6 +5,11 @@ resource:
 
     processor: Spryker\Glue\ConfigurableBundleCartsRestApi\Api\Storefront\Processor\GuestConfiguredBundlesStorefrontProcessor
 
+    commonErrorCodes:
+        - status: 422
+          code: '901'
+          description: 'Request validation failed.'
+
     operations:
         - type: Post
           description: 'Add a configured bundle to a guest cart'
@@ -23,6 +28,11 @@ resource:
                       description: 'Anonymous customer unique id header is missing (code 109).'
                   422:
                       description: 'Invalid quantity, template not found, or bundle could not be added.'
+                      codes:
+                          - code: '4002'
+                            description: 'The configurable bundle template was not found.'
+                          - code: '4003'
+                            description: 'The configured bundle quantity is wrong.'
 
         - type: Patch
           description: 'Update configured bundle quantity in a guest cart'
@@ -43,6 +53,9 @@ resource:
                       description: 'Anonymous customer unique id header is missing (code 109), or bundle group key not found in the cart (code 4004).'
                   422:
                       description: 'Invalid quantity, cart not found, or bundle could not be updated.'
+                      codes:
+                          - code: '4003'
+                            description: 'The configured bundle quantity is wrong.'
 
         - type: Delete
           description: 'Remove a configured bundle from a guest cart'
@@ -76,7 +89,7 @@ resource:
                 example: 'bundle-123e4567-e89b-12d3-a456-426614174000'
 
         quantity:
-            type: mixed
+            type: integer
             writable: true
             # Every operation is `read: false` and answers the updated cart, so the input is never
             # read back.
