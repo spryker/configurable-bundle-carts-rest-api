@@ -114,6 +114,7 @@ resource:
         templateUuid:
             type: string
             writable: true
+            writableOn: ['Post']
             # Every operation is `read: false` and answers the updated cart, so the input is never
             # read back.
             readable: false
@@ -125,6 +126,7 @@ resource:
         items:
             type: array
             writable: true
+            writableOn: ['Post']
             # Every operation is `read: false` and answers the updated cart, so the input is never
             # read back.
             readable: false
