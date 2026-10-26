@@ -34,6 +34,11 @@
         <property name="idQuote" type="int"/>
         <property name="store" type="Store" description="The store context for an operation, determining which store's data is used."/>
         <property name="currency" type="Currency" description="The currency used for a transaction or price."/>
+        <property name="voucherDiscounts" type="Discount[]" singular="voucherDiscount"/>
+        <property name="cartRuleDiscounts" type="Discount[]" singular="cartRuleDiscount"/>
+        <property name="promotionItems" type="PromotionItem[]" singular="promotionItem"/>
+        <property name="giftCards" type="GiftCard[]" singular="giftCard"/>
+        <property name="bundleItems" type="Item[]" singular="bundleItem"/>
     </transfer>
 
     <transfer name="Customer">
@@ -146,6 +151,22 @@
 
     <transfer name="Store">
         <property name="defaultCurrencyIsoCode" type="string" description="The ISO code of the default currency for a store."/>
+    </transfer>
+
+    <transfer name="RestCartsAttributes">
+    </transfer>
+
+    <transfer name="Locale">
+        <property name="localeName" type="string"/>
+    </transfer>
+
+    <transfer name="Discount">
+    </transfer>
+
+    <transfer name="PromotionItem">
+    </transfer>
+
+    <transfer name="GiftCard">
     </transfer>
 
 </transfers>
